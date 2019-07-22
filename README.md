@@ -27,7 +27,7 @@ You will find this library useful if both of these statements are true:
 
 In June 2019, Apple announced Sign In with Apple, another third-party login provider. They also announced that if an iOS app offers any third-party login options, [it will be an App Store requirement](https://developer.apple.com/news/?id=06032019j) to offer Sign In with Apple. This rule would go into effect "later this year" (2019). That is, if you don't add the feature, at some point you won't be able to ship updates to your iOS app.
 
-Obviously Apple does not control Android. But if you have to add a login method to your iOS app, your users will need it to be available on your Android app too. If it isn't, they won't be able to log in if they also use Android, or if they switch when they buy a new phone.
+Obviously Apple does not control Android. But if you have to add a login method to your iOS app, your users will need it on your Android app too. If it isn't supported, your users won't be able to log in if they switch to Android.
 
 We built this library to make it as painless as possible to add Sign In with Apple to your Android app.
 
