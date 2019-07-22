@@ -41,7 +41,15 @@ We've included an example Android app in {TODO: Folder with the example app in i
 
 TODO: Where to look in the sample project for 1. the button's inclusion in layout, and what you might modify in order to style it differently, 2. the button's presentation of the web login flow, 3. where success or failure is reported back into the app, 4. display of success value details after login, with a note that in a real app you would take this data and submit it to your API's authentication endpoint.
 
-## Similar projects
+## Related projects
+
+- Front end components offering a Sign In with Apple button
+    - [Juice](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app), Apple's sample project, as seen in [WWDC 2019, Session 706 - Introducing Sign In with Apple](https://developer.apple.com/videos/play/wwdc19/706/)
+    - [@react-native-community/apple-authentication](https://github.com/react-native-community/apple-authentication), a React Native library
+    - [OmniAuth::Apple](https://github.com/nhosoya/omniauth-apple), an OmniAuth strategy for Rails web apps
+- Backend components offering validaton of Sign In with Apple tokens
+    - [apple-auth](https://github.com/ananay/apple-auth), an NPM package for JavaScript backends
+    - [apple_id](https://github.com/nov/apple_id), a gem for Ruby backends
 
 ## Roadmap
 
