@@ -7,6 +7,7 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 This library includes a {TODO: name of button type} type, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive a {TODO: name of token data model type} object, whose details you can submit to your backend to create a session.
 
 TODO: Diagram of styled buttons -> auth web flow -> token data -> your backend
+
 TODO: Ask a designer to make the diagram extra nice 🙏
 
 To fit both your UI and user expectations, you can style the button offers according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
