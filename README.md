@@ -10,7 +10,7 @@ TODO: Diagram of styled buttons -> auth web flow -> token data -> your backend
 
 TODO: Ask a designer to make the diagram extra nice 🙏
 
-To fit both your UI and user expectations, you can style the button offers according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
+To fit both your UI and user expectations, you can style the button according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
 TODO: Images of HIG-styled buttons, maybe animated to show touch effect
 
