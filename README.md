@@ -25,6 +25,10 @@ TODO: How to include the app with Maven, directly from source, etc. … whatever
 
 ## Example application
 
+We've included an example Android app in {TODO: Folder with the example app in it}. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
+
+TODO: Where to look in the sample project for 1. the button's inclusion in layout, and what you might modify in order to style it differently, 2. the button's presentation of the web login flow, 3. where success or failure is reported back into the app, 4. display of success value details after login, with a note that in a real app you would take this data and submit it to your API's authentication endpoint.
+
 ## Similar projects
 
 ## Roadmap
