@@ -21,6 +21,8 @@ TODO: Images of Material-themed buttons, maybe animated to show ripple
 
 ## Installation and usage
 
+TODO: How to include the app with Maven, directly from source, etc. … whatever the common methods are
+
 ## Example application
 
 ## Similar projects
