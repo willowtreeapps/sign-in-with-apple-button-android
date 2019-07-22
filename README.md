@@ -19,6 +19,17 @@ TODO: Images of Material-themed buttons, maybe animated to show ripple
 
 ## Do I need this?
 
+You will find this library useful if both of these statements are true:
+
+1. Your service has both an Android app and an iOS app.
+2. Your apps include third-party login, like signing in with Google, Facebook, or Twitter.
+
+In June 2019, Apple announced Sign In with Apple, another third-party login provider. They also announced that if an iOS app offers any third-party login options, [it will be an App Store requirement](https://developer.apple.com/news/?id=06032019j) to offer Sign In with Apple. This rule would go into effect "later this year" (2019). That is, if you don't add the feature, at some point you won't be able to ship updates to your iOS app.
+
+Obviously Apple does not control Android. But if you have to add a login method to your iOS app, your users will need it to be available on your Android app too. If it isn't, they won't be able to log in if they also use Android, or if they switch when they buy a new phone.
+
+Therefore, we built this library to make that feature as painless as possible to add to your Android app.
+
 ## Installation and usage
 
 TODO: How to include the app with Maven, directly from source, etc. … whatever the common methods are
