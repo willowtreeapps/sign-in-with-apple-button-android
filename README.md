@@ -29,7 +29,7 @@ In June 2019, Apple announced Sign In with Apple, another third-party login prov
 
 Obviously Apple does not control Android. But if you have to add a login method to your iOS app, your users will need it to be available on your Android app too. If it isn't, they won't be able to log in if they also use Android, or if they switch when they buy a new phone.
 
-Therefore, we built this library to make that feature as painless as possible to add to your Android app.
+We built this library to make it as painless as possible to add Sign In with Apple to your Android app.
 
 ## Installation and usage
 
