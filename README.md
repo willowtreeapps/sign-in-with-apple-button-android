@@ -10,7 +10,7 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 
 ## What you get
 
-This library includes a {TODO: name of button type} type, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive a {TODO: name of token data model type} object. You can submit that object's details to your backend to validate and create a user session.
+This library includes a {TODO: name of button type} type, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive a {TODO: name of token data model type} object with an authorization code and ID token. You can submit these details to your backend to validate and create a user session.
 
 TODO: Diagram of styled buttons -> auth web flow -> token data -> your backend
 
@@ -37,15 +37,48 @@ Obviously Apple does not control Android. But if you have to add a login method 
 
 We built this library to make it as painless as possible to add Sign In with Apple to your Android app.
 
-## Installation and usage
+## Instructions
+
+### Service setup
+
+First, follow Apple's instructions to configure Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service client ID that you'll use from Android.
+
+You should have created:
+
+- An App ID
+    - having the Sign In with Apple capability
+- A Service ID
+    - using the App ID as its primary
+    - mapped to a domain you control
+        - which Apple has verified
+    - configured with at least one redirect URI
+
+From this configuration, you will need two strings to configure this library:
+
+- The client ID, which is the Service ID's bundle identifier
+- The redirect URI, which you configured
+
+### Installation
 
 TODO: How to include the app with Maven, directly from source, etc. … whatever the common methods are
+
+### Usage
+
+TODO: Add either type of button to your layout
+
+TODO: Configure the button with the client ID, redirect URI, scope, and a success callback
+
+When the user taps the button, it will present a web view configured to sign in to your service. After the user authenticates, Apple will forward to the redirect URI. The web view will automatically intercept this forward and pull out the authorization code and ID token. Finally, you'll receive these details in your callback.
+
+TODO: How to handle success; what to do with the results
+
+TODO: Failure cases
 
 ## Example application
 
 We've included an example Android app in {TODO: Folder with the example app in it}. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
 
-TODO: Where to look in the sample project for 1. the button's inclusion in layout, and what you might modify in order to style it differently, 2. the button's presentation of the web login flow, 3. where success or failure is reported back into the app, 4. display of success value details after login, with a note that in a real app you would take this data and submit it to your API's authentication endpoint.
+TODO: Where to look in the sample project for 1. the button's inclusion in layout, and what you might modify in order to style it differently, 2. the button's configuration with service details and a callback, 3. the button's presentation of the web login flow, 4. display of success value details after login, with a note that in a real app you would take this data and submit it to your API's authentication endpoint.
 
 ## Related projects
 
