@@ -22,10 +22,11 @@ class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : Button(context, attrs, defStyleAttr, defStyleRes) {
-    lateinit var redirectUri: String //= "http://kconner.com/sign-in-with-apple-button-android-example-app/callback"
+    lateinit var redirectUri: String
     lateinit var clientId: String
     var state: String = UUID.randomUUID().toString()
-    var scope: String = "email_name"
+    //TODO: Figure out the behavior/default for scope; default was "email name"
+    var scope: String = ""
 
     var callback: AppleSignInCallback? = null
 
@@ -62,9 +63,16 @@ class SignInWithAppleButton @JvmOverloads constructor(
             webView.settings.apply {
                 javaScriptEnabled = true
                 javaScriptCanOpenWindowsAutomatically = true
-                allowFileAccessFromFileURLs = true
-                allowUniversalAccessFromFileURLs = true
             }
+            /*
+            We have to build this URI out ourselves because the default behavior is to POST the response, while we
+            need a GET so that we can retrieve the code (and potentially ID token/state). The URI created is based off
+            the URI constructed by Apple's Javascript SDK, and is why certain fields (like the version, v) are included
+            in the URI construction.
+
+            See the Sign In With Apple Javascript SDK for reference:
+            https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
+             */
             val uri = Uri.parse("https://appleid.apple.com/auth/authorize")
                 .buildUpon().apply {
                     appendQueryParameter("response_type", "code id_token")

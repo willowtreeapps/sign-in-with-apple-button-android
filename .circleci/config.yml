@@ -28,6 +28,9 @@ jobs:
       - store_artifacts:
           path: signinwithapplebutton/build/outputs/
           destination: core
+      - store_artifacts:
+          path: sample/build/outputs/
+          destination: core
 #      - store_test_results:
 #          path: app/build/test-results
 # TODO: Add deploy step when we are ready to publish
