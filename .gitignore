@@ -18,6 +18,7 @@ out/
 
 # Gradle files
 .gradle/
+gradlew
 build/
 .externalNativeBuild
 
@@ -40,6 +41,7 @@ captures/
 # Intellij
 *.iml
 .idea
+idea
 
 # Keystore files
 *.jks
