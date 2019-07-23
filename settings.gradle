@@ -1,1 +1,1 @@
-include ':signinwithapplebutton'
+include ':signinwithapplebutton', ':sample'
