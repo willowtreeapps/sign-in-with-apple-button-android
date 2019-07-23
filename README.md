@@ -1,12 +1,8 @@
-# sign-in-with-apple-button-android
-
-[![CircleCI](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android.svg?style=svg&circle-token=94aaaafd543585e19434a36498601ec291d29e62)](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android)
-[![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)]()
-[![Public Yes](https://img.shields.io/badge/Public-yes-green.svg?style=flat)]()
-=======
 # Sign In with Apple Button for Android
 
 A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-with-apple/) to Android apps.
+
+[![CircleCI](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android.svg?style=svg&circle-token=94aaaafd543585e19434a36498601ec291d29e62)](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android) [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)]() [![Public Yes](https://img.shields.io/badge/Public-yes-green.svg?style=flat)]()
 
 ## What you get
 
