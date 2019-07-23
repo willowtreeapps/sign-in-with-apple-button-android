@@ -4,6 +4,7 @@ import android.R.style.Theme_Black_NoTitleBar_Fullscreen
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.net.Uri
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import androidx.core.view.updateLayoutParams
+import java.net.URL
 
 @SuppressLint("SetJavaScriptEnabled")
 class SignInWithAppleButton @JvmOverloads constructor(
@@ -31,9 +33,18 @@ class SignInWithAppleButton @JvmOverloads constructor(
                 allowFileAccessFromFileURLs = true
                 allowUniversalAccessFromFileURLs = true
             }
+            val uri = Uri.parse("file:///android_asset/sign-in.html")
+                .buildUpon()
+                .appendQueryParameter("clientId", "jp.yauth.signin.service3")
+                .appendQueryParameter("redirectURI", "https://signin-with-apple.herokuapp.com/callback")
+                .appendQueryParameter("scope", "email name")
+                .appendQueryParameter("state", "8700a021ffb72673")
+                .build()
+                .toString()
+
             val dialog = Dialog(context, Theme_Black_NoTitleBar_Fullscreen)
             dialog.setContentView(webView)
-            webView.loadUrl("file:///android_asset/sign-in.html")
+            webView.loadUrl(uri)
             dialog.show()
         }
     }

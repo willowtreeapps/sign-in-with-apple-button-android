@@ -1,17 +1,18 @@
 <html>
-<head>
-    <meta name="appleid-signin-client-id" content="jp.yauth.signin.service3">
-    <meta name="appleid-signin-scope" content="email name">
-    <meta name="appleid-signin-redirect-uri" content="https://signin-with-apple.herokuapp.com/callback">
-    <meta name="appleid-signin-state" content="8700a021ffb72673">
-</head>
 <body>
 <script type="text/javascript"
         src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
 <script type="text/javascript">
-AppleID.auth.init({clientId: "jp.yauth.signin.service3", redirectURI: "https://signin-with-apple.herokuapp.com/callback", scope: "email name", state: "8700a021ffb72673"});
-    AppleID.auth.signIn();
+    var arguments = new URLSearchParams(window.location.search);
 
+    var clientConfiguration = {};
+    clientConfiguration.clientId = arguments.get("clientId");
+    clientConfiguration.redirectURI = arguments.get("redirectURI");
+    clientConfiguration.scope = arguments.get("scope");
+    clientConfiguration.state = arguments.get("state");
+
+    AppleID.auth.init(clientConfiguration);
+    AppleID.auth.signIn();
 </script>
 </body>
 </html>
