@@ -7,7 +7,8 @@
         android:layout_height="match_parent"
         tools:context=".SampleActivity">
 
-    <com.willowtreeapps.signinwithapplebutton.SignInWithAppleButton
+    <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/sign_in_with_apple_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

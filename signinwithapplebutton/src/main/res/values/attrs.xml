@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SignInWithAppleButton">
+        <attr name="redirectUri" format="string"/>
+        <attr name="clientId" format="string" />
+        <attr name="state" format="string" />
+        <attr name="scope" format="string" />
+    </declare-styleable>
+</resources>
