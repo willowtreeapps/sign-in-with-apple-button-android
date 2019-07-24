@@ -37,42 +37,64 @@ We built this library to make it as painless as possible to add Sign In with App
 
 ### Service setup
 
-First, follow Apple's instructions to configure Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service setup that you'll use from Android, but you need both.
+First, follow Apple's instructions to set up Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service setup that you'll use from Android, but you need both.
+
+More setup is necessary for backend operations, but the above is all you need to use this library.
 
 For more detail, you can read Aaron Parecki's walkthrough, [What the Heck is Sign In with Apple?](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 You should have created:
 
 - An App ID,
-    - configured with the Sign In with Apple capability.
+    - including the Sign In with Apple capability.
 - A Service ID,
     - using the App ID as its primary,
     - mapped to a domain you control,
         - which Apple has verified,
-    - configured with at least one Return URL.
+    - including at least one Return URL.
 
-From your configuration, you will need two OAuth arguments to use this library:
+From this setup, you will need two OAuth arguments to use this library:
 
-- `client_id`, which you entered as the Identifier field of the Service ID.
-- `redirect_uri`, which you entered as the Return URL.
+- A client ID, which you entered as the Identifier field of the Service ID.
+- A redirect URI, which you entered as the Return URL.
 
 ### Installation
 
 TODO: How to include the app with Maven, directly from source, etc. … whatever the common methods are
 
-### Usage
+### Configuration
 
-TODO: Add either type of button to your layout
+Add a `SignInWithAppleButton` or {TODO: Material button class name} to your layout.
 
-TODO: Configure the button with the client ID, redirect URI, scope, and a success callback
+Configure the button's appearance properties:
 
-When the user taps the button, it will present a web view configured to sign in to your service. After the user authenticates, Apple will forward to the redirect URI. The web view will automatically intercept this forward and pull out the authorization code and ID token. Finally, you'll receive these details in your callback.
+- `buttonTheme` (optional): Supply `"white"`, `"black"`, or `"whiteWithOutline"`
+- `signInText` (optional): Supply `"signInWithApple"` or `"continueWithApple"` to specify the text of the button.
+- `cornerRadius` (optional): TODO
 
-TODO: How to handle success; what to do with the results
+> These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-Your backend endpoint can then phone home to Apple to [validate the authorization code and generate tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+#### {TODO: Material button}
 
-TODO: Failure cases
+Configure the button's service authentication properties:
+
+- `clientId`: Use the client ID value from service setup.
+- `redirectUri`: Use the redirect URI value from service setup.
+- `scope` (optional): Supply a space-delimited string of OpenID scopes, like "name email".
+
+Finally, configure the `callback` property with an instance of `AppleSignInCallback`.
+
+TODO: Does the library consumer have to configure any security exceptions for the library to catch the request?
+
+### Behavior
+
+When the user taps the button, it will present a web view configured to authenticate for your service. After the user authenticates, Apple will forward to the redirect URI. The web view will automatically intercept this request and pull out the authorization code.
+
+If the user completes authentication, your `AppleSignInCallback` object will receive an `AppleSignInSuccess` value in a call to `onSignInSuccess`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for an access token](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+
+If instead there is a failure, your `AppleSignInCallback` object will receive that error in a call to `onSignInFailure`.
+
+If the user dismisses the authentication screen intentionally, your `AppleSignInCallback` object won't receive any call.
 
 ## Example application
 
