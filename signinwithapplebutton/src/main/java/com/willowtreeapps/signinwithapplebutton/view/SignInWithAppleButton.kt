@@ -4,6 +4,8 @@ import android.R.style.Theme_Black_NoTitleBar_Fullscreen
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.ShapeDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
@@ -60,7 +62,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
     init {
         gravity = Gravity.CENTER
         compoundDrawablePadding = resources.getDimensionPixelOffset(R.dimen.icon_padding)
-        
+
         val padding = resources.getDimensionPixelOffset(R.dimen.button_padding_default)
 
         val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
@@ -68,15 +70,21 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val buttonText = attributes.getInt(R.styleable.SignInWithAppleButton_signInText, SignInText.SIGN_IN.ordinal)
         text = resources.getString(SignInText.values()[buttonText].text)
 
-        val buttonThemeIndex = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTheme, SignInTheme.BLACK.ordinal)
+        val buttonThemeIndex =
+            attributes.getInt(R.styleable.SignInWithAppleButton_buttonTheme, SignInTheme.BLACK.ordinal)
         val buttonTheme = SignInTheme.values()[buttonThemeIndex]
+        val radius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius, 0f)
 
         setTextColor(ContextCompat.getColor(context, buttonTheme.textColor))
+
         background = ContextCompat.getDrawable(context, buttonTheme.background)
+        (background as GradientDrawable).cornerRadius = radius
 
-        setCompoundDrawablesRelativeWithIntrinsicBounds(buttonTheme.icon, 0, 0, 0)
+        val icon = ContextCompat.getDrawable(context, buttonTheme.icon)
+        buttonTheme.tint?.let { icon?.setTint(ContextCompat.getColor(context, buttonTheme.tint)) }
+        setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
 
-        setPadding(padding)
+        setPaddingRelative(padding - compoundDrawablePadding, padding, padding, padding)
 
         clientId = attributes.getString(R.styleable.SignInWithAppleButton_clientId) ?: clientId
         redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_redirectUri) ?: redirectUri
