@@ -6,17 +6,17 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 
 ## What you get
 
-This library includes a {TODO: name of button type} type, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive a {TODO: name of token data model type} object with an authorization code and ID token. You can submit these details to your backend to validate and create a user session.
+This library includes a `SignInWithAppleButton` class, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive an `AppleSignInSuccess` object with an authorization code string. You can then pass the authorization code to your backend's third party login endpoint.
 
 TODO: Diagram of styled buttons -> auth web flow -> token data -> your backend
 
-TODO: Ask a designer to make the diagram extra nice 🙏
+TODO: Ask a designer to make the diagram extra nice?
 
 To fit both your UI and user expectations, you can style the button according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
 TODO: Images of HIG-styled buttons, maybe animated to show touch effect
 
-For Material Design apps, we also have a Material-themed button type, {TODO: name of material button type}.
+For Material Design apps, we also have a Material-themed button class, {TODO: name of material button class}.
 
 TODO: Images of Material-themed buttons, maybe animated to show ripple
 
@@ -70,13 +70,20 @@ When the user taps the button, it will present a web view configured to sign in 
 
 TODO: How to handle success; what to do with the results
 
+Your backend endpoint can then phone home to Apple to [validate the authorization code and generate tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+
 TODO: Failure cases
 
 ## Example application
 
-We've included an example Android app in {TODO: Folder with the example app in it}. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
+We've included an example Android app in the `sample` folder. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
 
-TODO: Where to look in the sample project for 1. the button's inclusion in layout, and what you might modify in order to style it differently, 2. the button's configuration with service details and a callback, 3. the button's presentation of the web login flow, 4. display of success value details after login, with a note that in a real app you would take this data and submit it to your API's authentication endpoint.
+The example app demonstrates:
+
+1. Adding the button to your layout, in `activity_sample.xml`
+2. Configuring the button with service details, in {TODO: where?}
+3. Configuring the button with success and failure callbacks, in `SampleActivity.kt`
+4. Using the authorization code, in the success callback. In a real application, you would submit this code to your backend's third party login endpoint.
 
 ## Related projects
 
