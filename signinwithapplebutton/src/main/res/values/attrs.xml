@@ -5,5 +5,15 @@
         <attr name="clientId" format="string" />
         <attr name="state" format="string" />
         <attr name="scope" format="string" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="signInText" format="enum">
+            <enum name="signInWithApple" value="0" />
+            <enum name="continueWithApple" value="1" />
+        </attr>
+        <attr name="buttonTheme" format="enum">
+            <enum name="white" value="0" />
+            <enum name="black" value="1" />
+            <enum name="whiteWithOutline" value="2" />
+        </attr>
     </declare-styleable>
 </resources>

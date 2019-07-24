@@ -66,9 +66,7 @@ TODO: How to include the app with Maven, directly from source, etc. … whatever
 
 Add a `SignInWithAppleButton` or {TODO: Material button class name} to your layout.
 
-TODO: Explain that properties can be configured in layout XML or in code.
-
-Configure the button's appearance properties:
+Configure the button's appearance properties (these can only be set via XML):
 
 - `buttonTheme` (optional): Supply `"white"`, `"black"`, or `"whiteWithOutline"`
 - `signInText` (optional): Supply `"signInWithApple"` or `"continueWithApple"` to specify the text of the button.
@@ -76,7 +74,7 @@ Configure the button's appearance properties:
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-Configure the button's service authentication properties:
+Configure the button's service authentication properties (these may be set in either XML or programmatically):
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
@@ -84,6 +82,32 @@ Configure the button's service authentication properties:
 
 Finally, configure the `callback` property with an instance of `AppleSignInCallback`.
 
+Set up a `SignInWithApple` button via XML:
+```
+<com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/sign_in_with_apple_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonTheme="black"
+            app:cornerRadius="8dp"
+            app:redirectUri="https://a-redirect-uri.com/callback"
+            app:clientId="<client ID string>"
+            app:state="<state string>"
+            app:scope="<scope string>"
+            app:signInText="continueWithApple" />
+```
+
+or set up the corresponding properties programmatically:
+```
+val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
+
+signInWithAppleButton.redirectUri = "https://redirect_uri"
+signInWithAppleButton.clientId = "clientId"
+signInWithAppleButton.scope = "scope"
+signInWithAppleButton.state = "state"
+```
+
+If using an HTTP address for your `redirectUri`, you may need to include a security configuration to allow cleartext traffic. See the [Network security configuration](https://developer.android.com/training/articles/security-config#CleartextTrafficPermitted) documentation for instructions on setting up a security configuration and then add that file to your Manifest's `<application>` tag using the attribute `android:android:networkSecurityConfig`
 TODO: Does the library consumer have to configure any security exceptions for the library to catch the request?
 
 ### Behavior
