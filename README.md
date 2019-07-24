@@ -66,6 +66,8 @@ TODO: How to include the app with Maven, directly from source, etc. … whatever
 
 Add a `SignInWithAppleButton` or {TODO: Material button class name} to your layout.
 
+TODO: Explain that properties can be configured in layout XML or in code.
+
 Configure the button's appearance properties:
 
 - `buttonTheme` (optional): Supply `"white"`, `"black"`, or `"whiteWithOutline"`
@@ -73,8 +75,6 @@ Configure the button's appearance properties:
 - `cornerRadius` (optional): TODO
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
-
-#### {TODO: Material button}
 
 Configure the button's service authentication properties:
 
