@@ -37,22 +37,24 @@ We built this library to make it as painless as possible to add Sign In with App
 
 ### Service setup
 
-First, follow Apple's instructions to configure Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service client ID that you'll use from Android.
+First, follow Apple's instructions to configure Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service setup that you'll use from Android, but you need both.
+
+For more detail, you can read Aaron Parecki's walkthrough, [What the Heck is Sign In with Apple?](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
 
 You should have created:
 
-- An App ID
-    - having the Sign In with Apple capability
-- A Service ID
-    - using the App ID as its primary
-    - mapped to a domain you control
-        - which Apple has verified
-    - configured with at least one redirect URI
+- An App ID,
+    - configured with the Sign In with Apple capability.
+- A Service ID,
+    - using the App ID as its primary,
+    - mapped to a domain you control,
+        - which Apple has verified,
+    - configured with at least one Return URL.
 
-From this configuration, you will need two strings to configure this library:
+From your configuration, you will need two OAuth arguments to use this library:
 
-- The client ID, which is the Service ID's bundle identifier
-- The redirect URI, which you configured
+- `client_id`, which you entered as the Identifier field of the Service ID.
+- `redirect_uri`, which you entered as the Return URL.
 
 ### Installation
 
