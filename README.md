@@ -68,9 +68,9 @@ Add a `SignInWithAppleButton` or {TODO: Material button class name} to your layo
 
 Configure the button's appearance properties (these can only be set via XML):
 
-- `buttonTheme` (optional): Supply `"white"`, `"black"`, or `"whiteWithOutline"`
-- `signInText` (optional): Supply `"signInWithApple"` or `"continueWithApple"` to specify the text of the button.
-- `cornerRadius` (optional): TODO
+- `buttonTheme` (optional): Supply `"white"`, `"black"`, or `"whiteWithOutline"` (defaults to `black` if unset)
+- `signInText` (optional): Supply `"signInWithApple"` or `"continueWithApple"` to specify the text of the button. (defaults to `signInWithApple` if unset)
+- `cornerRadius` (optional): Supply a dimension - `8dp`, `8px`, etc (defaults to `4dp` if unset)
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
