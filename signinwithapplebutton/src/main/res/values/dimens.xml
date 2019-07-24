@@ -2,4 +2,5 @@
 <resources>
     <dimen name="button_padding_default">16dp</dimen>
     <dimen name="icon_padding">6dp</dimen>
+    <dimen name="corner_radius_default">4dp</dimen>
 </resources>

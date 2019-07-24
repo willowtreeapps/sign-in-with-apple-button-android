@@ -73,7 +73,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val buttonThemeIndex =
             attributes.getInt(R.styleable.SignInWithAppleButton_buttonTheme, SignInTheme.BLACK.ordinal)
         val buttonTheme = SignInTheme.values()[buttonThemeIndex]
-        val radius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius, 0f)
+        val radius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius,
+            resources.getDimension(R.dimen.corner_radius_default))
 
         setTextColor(ContextCompat.getColor(context, buttonTheme.textColor))
 
