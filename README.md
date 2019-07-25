@@ -6,11 +6,7 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 
 ## What you get
 
-This library includes a `SignInWithAppleButton` class, which you can include on your login screen. When tapped, the button presents a web login flow using the [Sign In with Apple JavaScript SDK](https://developer.apple.com/documentation/signinwithapplejs). After the user signs in, your code will receive an `AppleSignInSuccess` object with an authorization code string. You can then pass the authorization code to your backend's third party login endpoint.
-
-TODO: Diagram of styled buttons -> auth web flow -> token data -> your backend
-
-TODO: Ask a designer to make the diagram extra nice?
+This library includes a `SignInWithAppleButton` class, which you can include on your login screen.
 
 To fit both your UI and user expectations, you can style the button according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
@@ -19,6 +15,10 @@ TODO: Images of HIG-styled buttons, maybe animated to show touch effect
 For Material Design apps, we also have a Material-themed button class, {TODO: name of material button class}.
 
 TODO: Images of Material-themed buttons, maybe animated to show ripple
+
+When tapped, the button presents Apple's OAuth login flow in a web view. After the user signs in, your callback will receive an authorization code. You can then pass the authorization code to your backend's third party login endpoint.
+
+![OAuth flow diagram](docs/flow-diagram.png)
 
 ## Do I need this?
 
@@ -114,17 +114,17 @@ TODO: Does the library consumer have to configure any security exceptions for th
 
 When the user taps the button, it will present a web view configured to authenticate for your service. After the user authenticates, Apple will forward to the redirect URI. The web view will automatically intercept this request and pull out the authorization code.
 
-If the user completes authentication, your `AppleSignInCallback` object will receive an `AppleSignInSuccess` value in a call to `onSignInSuccess`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for an access token](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+If the user completes authentication, your `AppleSignInCallback` object will receive an `AppleSignInSuccess` value in a call to `onSignInSuccess`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
 
 If instead there is a failure, your `AppleSignInCallback` object will receive that error in a call to `onSignInFailure`.
 
 If the user dismisses the authentication screen intentionally, your `AppleSignInCallback` object won't receive any call.
 
-## Example application
+## Sample application
 
-We've included an example Android app in the `sample` folder. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
+We've included a sample Android app in the `sample` folder. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
 
-The example app demonstrates:
+The sample app demonstrates:
 
 1. Adding the button to your layout, in `activity_sample.xml`
 2. Configuring the button with service details, in {TODO: where?}
