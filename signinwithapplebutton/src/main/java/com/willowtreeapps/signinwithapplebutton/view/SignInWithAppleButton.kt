@@ -5,22 +5,18 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
 import android.view.Gravity
-import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.Button
 import androidx.core.content.ContextCompat
-import androidx.core.view.setPadding
 import com.willowtreeapps.signinwithapplebutton.AppleSignInCallback
 import com.willowtreeapps.signinwithapplebutton.R
 import com.willowtreeapps.signinwithapplebutton.model.AppleSignInSuccess
-import java.lang.IllegalArgumentException
 import java.util.*
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -73,19 +69,21 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val buttonThemeIndex =
             attributes.getInt(R.styleable.SignInWithAppleButton_buttonTheme, SignInTheme.BLACK.ordinal)
         val buttonTheme = SignInTheme.values()[buttonThemeIndex]
-        val radius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius,
-            resources.getDimension(R.dimen.corner_radius_default))
+        val radius = attributes.getDimension(
+            R.styleable.SignInWithAppleButton_cornerRadius,
+            resources.getDimension(R.dimen.corner_radius_default)
+        )
 
-        setTextColor(ContextCompat.getColor(context, buttonTheme.textColor))
+        setTextColor(ContextCompat.getColorStateList(context, buttonTheme.textColor))
 
         background = ContextCompat.getDrawable(context, buttonTheme.background)
         (background as GradientDrawable).cornerRadius = radius
 
-        val icon = ContextCompat.getDrawable(context, buttonTheme.icon)
-        buttonTheme.tint?.let { icon?.setTint(ContextCompat.getColor(context, buttonTheme.tint)) }
+        val icon = ContextCompat.getDrawable(context, buttonTheme.icon)?.mutate()
         setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
 
-        setPaddingRelative(padding - compoundDrawablePadding, padding, padding, padding)
+        setPaddingRelative(padding - compoundDrawablePadding, padding  - compoundDrawablePadding,
+            padding, padding  - compoundDrawablePadding)
 
         clientId = attributes.getString(R.styleable.SignInWithAppleButton_clientId) ?: clientId
         redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_redirectUri) ?: redirectUri
