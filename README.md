@@ -76,7 +76,7 @@ Configure the button's service authentication properties, either in layout XML o
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
-- `scope`: Specify a space-delimited string of OpenID scopes, like "openid name email".
+- `scope`: Specify a space-delimited string of OpenID scopes, like "name email".
 
 Finally, configure the `callback` property at runtime with an instance of `AppleSignInCallback`. To create that object, you'll implement success and failure callback functions.
 
@@ -94,7 +94,7 @@ Set up a `SignInWithApple` button via XML, then set the callback in code:
     app:cornerRadius="4dp"
     app:clientId="com.your.client.id.here"
     app:redirectUri="https://your-redirect-uri.com/callback"
-    app:scope="openid email" />
+    app:scope="email" />
 ```
 
 …
@@ -124,7 +124,7 @@ val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
 
 signInWithAppleButton.clientId = "com.your.client.id.here"
 signInWithAppleButton.redirectUri = "https://your-redirect-uri.com/callback"
-signInWithAppleButton.scope = "openid email"
+signInWithAppleButton.scope = "email"
 
 signInWithAppleButton.callback = object : AppleSignInCallback {
     …
