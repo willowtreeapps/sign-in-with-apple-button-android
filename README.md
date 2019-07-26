@@ -150,8 +150,9 @@ The sample app demonstrates:
 1. Adding the button to your layout, in `activity_sample.xml`
 2. Configuring the button with service details, in {TODO: where?}
 3. Configuring the button with a callback object, in `SampleActivity.kt`
+4. Making use of the authorization code on success, in `onSignInSuccess`
 
-You can adjust this sample project with your service configuration and try signing in. Try setting a breakpoint in `onSignInSuccess` to see the authorization token.
+You can adjust this sample project with your service configuration and try signing in.
 
 ## Related projects
 
