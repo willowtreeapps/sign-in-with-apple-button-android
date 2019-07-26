@@ -160,7 +160,7 @@ You can adjust this sample project with your service configuration and try signi
     - [Juice](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app), Apple's sample project, as seen in [WWDC 2019, Session 706 - Introducing Sign In with Apple](https://developer.apple.com/videos/play/wwdc19/706/)
     - [@react-native-community/apple-authentication](https://github.com/react-native-community/apple-authentication), a React Native library
     - [OmniAuth::Apple](https://github.com/nhosoya/omniauth-apple), an OmniAuth strategy for Rails web apps
-- Backend components offering validaton of Sign In with Apple tokens
+- Backend components for Sign In with Apple
     - [apple-auth](https://github.com/ananay/apple-auth), an NPM package for JavaScript backends
     - [apple_id](https://github.com/nov/apple_id), a gem for Ruby backends
 
