@@ -63,7 +63,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
 
-        val buttonText = attributes.getInt(R.styleable.SignInWithAppleButton_signInText, SignInText.SIGN_IN.ordinal)
+        val buttonText = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTextType, SignInText.SIGN_IN.ordinal)
         text = resources.getString(SignInText.values()[buttonText].text)
 
         val buttonThemeIndex =

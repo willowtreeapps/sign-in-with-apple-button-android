@@ -7,7 +7,9 @@ import com.willowtreeapps.signinwithapplebutton.model.AppleSignInSuccess
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
 
 class SampleActivity : AppCompatActivity() {
-    lateinit var signInWithAppleButton: SignInWithAppleButton
+    lateinit var signInWithAppleButtonBlack: SignInWithAppleButton
+    lateinit var signInWithAppleButtonWhite: SignInWithAppleButton
+    lateinit var signInWithAppleButtonWhiteOutline: SignInWithAppleButton
 
     private val signInCallback = object : AppleSignInCallback {
         override fun onSignInSuccess(signInSuccess: AppleSignInSuccess) {
@@ -23,11 +25,13 @@ class SampleActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sample)
 
-        signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
+        signInWithAppleButtonBlack = findViewById(R.id.sign_in_with_apple_button_black)
+        signInWithAppleButtonWhite = findViewById(R.id.sign_in_with_apple_button_white)
+        signInWithAppleButtonWhiteOutline = findViewById(R.id.sign_in_with_apple_button_white_outline)
     }
 
     override fun onResume() {
         super.onResume()
-        signInWithAppleButton.callback = signInCallback
+        signInWithAppleButtonBlack.callback = signInCallback
     }
 }

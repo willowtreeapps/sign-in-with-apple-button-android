@@ -5,16 +5,38 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#FFAAAAAA"
         tools:context=".SampleActivity">
 
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-            android:id="@+id/sign_in_with_apple_button"
+            android:id="@+id/sign_in_with_apple_button_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:buttonTheme="whiteWithOutline"
-            app:cornerRadius="8dp"
+            app:buttonTheme="black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white"/>
+
+    <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/sign_in_with_apple_button_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonTheme="white"
+            app:cornerRadius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_black"
+            app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white_outline"/>
+
+    <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+            android:id="@+id/sign_in_with_apple_button_white_outline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:buttonTheme="whiteOutline"
+            app:cornerRadius="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_white"
             app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
