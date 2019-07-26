@@ -8,7 +8,7 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 
 This library includes a `SignInWithAppleButton` class. You can style the button according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-TODO: Images of HIG-themed buttons, maybe animated to show touch effect
+![Apple HIG themed button in black with default corner radius](docs/hig-button-black.png) ![Apple HIG themed button in white with rounder corners](docs/hig-button-white.png) ![Apple HIG themed button in outlined white with even rounder corners](docs/hig-button-white-outline.png)
 
 For Material Design apps, we also have a Material-themed button class, {TODO: name of material button class}.
 
