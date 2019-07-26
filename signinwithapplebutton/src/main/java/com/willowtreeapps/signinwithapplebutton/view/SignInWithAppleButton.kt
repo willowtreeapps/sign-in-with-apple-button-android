@@ -30,6 +30,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
     //TODO: Figure out the behavior/default for scope; default was "email name"
     var scope: String = ""
 
+    var dialog: Dialog? = null
+
     var callback: AppleSignInCallback? = null
 
     private val webClient = object : WebViewClient() {
@@ -48,6 +50,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
                         state != newState -> callback?.onSignInFailure(IllegalArgumentException("states do not match"))
                         else -> callback?.onSignInSuccess(AppleSignInSuccess(code))
                     }
+                    dialog?.dismiss()
                     true
                 }
                 else -> false
@@ -92,10 +95,10 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         setOnClickListener {
             val webView = buildWebView()
-            val dialog = Dialog(context, Theme_Black_NoTitleBar_Fullscreen)
-            dialog.setContentView(webView)
+            dialog = Dialog(context, Theme_Black_NoTitleBar_Fullscreen)
+            dialog?.setContentView(webView)
             webView.loadUrl(buildUri())
-            dialog.show()
+            dialog?.show()
         }
 
         attributes.recycle()
@@ -104,6 +107,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
         callback = null
+        dialog = null
     }
 
     /*
