@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/ic_apple_logo_pressed_svg" android:state_pressed="true" />
-    <item android:drawable="@drawable/ic_apple_logo_svg" android:state_pressed="false"/>
+    <item android:drawable="@drawable/ic_apple_logo_svg" />
 </selector>
