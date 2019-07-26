@@ -8,7 +8,7 @@ A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-wi
 
 This library includes a `SignInWithAppleButton` class. You can style the button according to Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-TODO: Images of HIG-themed buttons, maybe animated to show touch effect
+![Apple HIG themed button in black with default corner radius](docs/hig-button-black.png) ![Apple HIG themed button in white with rounder corners](docs/hig-button-white.png) ![Apple HIG themed button in outlined white with even rounder corners](docs/hig-button-white-outline.png)
 
 For Material Design apps, we also have a Material-themed button class, {TODO: name of material button class}.
 
@@ -76,7 +76,7 @@ Configure the button's service authentication properties, either in layout XML o
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
-- `scope`: Specify a space-delimited string of OpenID scopes, like "openid name email".
+- `scope`: Specify a space-delimited string of OpenID scopes, like "name email".
 
 Finally, configure the `callback` property at runtime with an instance of `AppleSignInCallback`. To create that object, you'll implement success and failure callback functions.
 
@@ -94,7 +94,7 @@ Set up a `SignInWithApple` button via XML, then set the callback in code:
     app:cornerRadius="4dp"
     app:clientId="com.your.client.id.here"
     app:redirectUri="https://your-redirect-uri.com/callback"
-    app:scope="openid email" />
+    app:scope="email" />
 ```
 
 …
@@ -124,7 +124,7 @@ val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
 
 signInWithAppleButton.clientId = "com.your.client.id.here"
 signInWithAppleButton.redirectUri = "https://your-redirect-uri.com/callback"
-signInWithAppleButton.scope = "openid email"
+signInWithAppleButton.scope = "email"
 
 signInWithAppleButton.callback = object : AppleSignInCallback {
     …
@@ -150,8 +150,9 @@ The sample app demonstrates:
 1. Adding the button to your layout, in `activity_sample.xml`
 2. Configuring the button with service details, in {TODO: where?}
 3. Configuring the button with a callback object, in `SampleActivity.kt`
+4. Making use of the authorization code on success, in `onSignInSuccess`
 
-You can adjust this sample project with your service configuration and try signing in. Try setting a breakpoint in `onSignInSuccess` to see the authorization token.
+You can adjust this sample project with your service configuration and try signing in.
 
 ## Related projects
 
