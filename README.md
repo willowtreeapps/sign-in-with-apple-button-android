@@ -66,7 +66,7 @@ Add a `SignInWithAppleButton` or {TODO: Material button class name} to your logi
 
 Configure the button's appearance properties in layout XML:
 
-- `buttonTheme`: Specify `"black"` (default), `"white"`, or `"whiteWithOutline"`.
+- `buttonColorStyle`: Specify `"black"` (default), `"white"`, or `"whiteWithOutline"`.
 - `signInText`: Specify `"signInWithApple"` (default) or `"continueWithApple"` to specify the text of the button.
 - `cornerRadius`: Specify a dimension like `"4dp"` (default), `"0dp"`, `"8px"`, etc.
 
@@ -89,7 +89,7 @@ Set up a `SignInWithApple` button via XML, then set the callback in code:
     android:id="@+id/sign_in_with_apple_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:buttonTheme="black"
+    app:buttonColorStyle="black"
     app:signInText="signInWithApple"
     app:cornerRadius="4dp"
     app:clientId="com.your.client.id.here"
@@ -112,7 +112,7 @@ Or leave the service properties out of XML, and enter them in code:
     android:id="@+id/sign_in_with_apple_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:buttonTheme="black"
+    app:buttonColorStyle="black"
     app:signInText="signInWithApple"
     app:cornerRadius="4dp" />
 ```

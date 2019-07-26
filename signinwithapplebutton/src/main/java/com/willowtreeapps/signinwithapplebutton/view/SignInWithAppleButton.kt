@@ -69,20 +69,20 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val buttonText = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTextType, SignInText.SIGN_IN.ordinal)
         text = resources.getString(SignInText.values()[buttonText].text)
 
-        val buttonThemeIndex =
-            attributes.getInt(R.styleable.SignInWithAppleButton_buttonTheme, SignInTheme.BLACK.ordinal)
-        val buttonTheme = SignInTheme.values()[buttonThemeIndex]
+        val buttonColorStyleIndex =
+            attributes.getInt(R.styleable.SignInWithAppleButton_buttonColorStyle, SignInTheme.BLACK.ordinal)
+        val buttonColorStyle = SignInTheme.values()[buttonColorStyleIndex]
         val radius = attributes.getDimension(
             R.styleable.SignInWithAppleButton_cornerRadius,
             resources.getDimension(R.dimen.corner_radius_default)
         )
 
-        setTextColor(ContextCompat.getColorStateList(context, buttonTheme.textColor))
+        setTextColor(ContextCompat.getColorStateList(context, buttonColorStyle.textColor))
 
-        background = ContextCompat.getDrawable(context, buttonTheme.background)
+        background = ContextCompat.getDrawable(context, buttonColorStyle.background)
         (background as GradientDrawable).cornerRadius = radius
 
-        val icon = ContextCompat.getDrawable(context, buttonTheme.icon)?.mutate()
+        val icon = ContextCompat.getDrawable(context, buttonColorStyle.icon)?.mutate()
         setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
 
         setPaddingRelative(padding - compoundDrawablePadding, padding  - compoundDrawablePadding,

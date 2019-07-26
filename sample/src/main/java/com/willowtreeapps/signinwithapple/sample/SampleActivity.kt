@@ -31,16 +31,26 @@ class SampleActivity : AppCompatActivity() {
         signInWithAppleButtonBlack = findViewById(R.id.sign_in_with_apple_button_black)
         signInWithAppleButtonWhite = findViewById(R.id.sign_in_with_apple_button_white)
         signInWithAppleButtonWhiteOutline = findViewById(R.id.sign_in_with_apple_button_white_outline)
-
-        signInWithAppleButtonBlack.apply {
-            redirectUri = "https://kconner.com/sign-in-with-apple-button-android-example-app/callback"
-            clientId = "com.kevinconner.sign-in-with-apple-button-android-example-site"
-            scope = "email name"
-        }
     }
 
     override fun onResume() {
         super.onResume()
-        signInWithAppleButtonBlack.callback = signInCallback
+        setUpSignInButton(signInWithAppleButtonBlack)
+        setUpSignInButton(signInWithAppleButtonWhite)
+        setUpSignInButton(signInWithAppleButtonWhiteOutline)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        signInWithAppleButtonBlack.callback = null
+        signInWithAppleButtonWhite.callback = null
+        signInWithAppleButtonWhiteOutline.callback = null
+    }
+    private fun setUpSignInButton(button: SignInWithAppleButton) = button.apply {
+        //TODO: Replace redirectUri and clientId with your own values
+        redirectUri = "com.your.client.id.here"
+        clientId = "https://your-redirect-uri.com/callback"
+        scope = "email name"
+        callback = signInCallback
     }
 }
