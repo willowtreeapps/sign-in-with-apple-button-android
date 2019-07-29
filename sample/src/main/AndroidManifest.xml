@@ -12,6 +12,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                        android:host="kconner.com"
+                        android:pathPrefix="/sign-in-with-apple-button-android-example-app/callback"
+                        android:scheme="https" />
+            </intent-filter>
         </activity>
     </application>
 

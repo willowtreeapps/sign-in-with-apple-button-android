@@ -1,22 +1,19 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
-import android.R.style.Theme_Black_NoTitleBar_Fullscreen
 import android.annotation.SuppressLint
-import android.app.Dialog
+import android.content.ComponentName
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.util.AttributeSet
-import android.util.Log
 import android.view.Gravity
-import android.webkit.WebResourceRequest
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.Button
+import androidx.browser.customtabs.CustomTabsClient
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsServiceConnection
 import androidx.core.content.ContextCompat
 import com.willowtreeapps.signinwithapplebutton.AppleSignInCallback
 import com.willowtreeapps.signinwithapplebutton.R
-import com.willowtreeapps.signinwithapplebutton.model.AppleSignInSuccess
 import java.util.*
 
 @SuppressLint("SetJavaScriptEnabled")
@@ -30,32 +27,26 @@ class SignInWithAppleButton @JvmOverloads constructor(
     //TODO: Figure out the behavior/default for scope; default was "email name"
     var scope: String = ""
 
-    var dialog: Dialog? = null
-
     var callback: AppleSignInCallback? = null
 
-    private val webClient = object : WebViewClient() {
-        override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-            return when {
-                request?.url?.toString()?.contains("appleid.apple.com") == true -> {
-                    view?.loadUrl(request.url?.toString() ?: "")
-                    true
-                }
-                request?.url?.toString()?.contains(redirectUri) == true -> {
-                    Log.d("APPLE_REDIRECT", "${request.url?.toString()}")
-                    val code = request.url.getQueryParameter("code")
-                    val newState = request.url.getQueryParameter("state")
-                    when {
-                        code == null -> callback?.onSignInFailure(IllegalArgumentException("no code returned"))
-                        state != newState -> callback?.onSignInFailure(IllegalArgumentException("states do not match"))
-                        else -> callback?.onSignInSuccess(AppleSignInSuccess(code))
-                    }
-                    dialog?.dismiss()
-                    true
-                }
-                else -> false
-            }
+    var tabPackage: String? = null
+
+    private val connection = object : CustomTabsServiceConnection() {
+        override fun onCustomTabsServiceConnected(name: ComponentName?, client: CustomTabsClient?) {
+            client?.warmup(0L)
         }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+    }
+
+    fun bindService(context: Context) {
+        CustomTabsClient.bindCustomTabsService(context, CustomTabsClient.getPackageName(context, null), connection)
+    }
+
+    fun unbindService(context: Context) {
+        context.unbindService(connection)
     }
 
     init {
@@ -85,8 +76,10 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val icon = ContextCompat.getDrawable(context, buttonColorStyle.icon)?.mutate()
         setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
 
-        setPaddingRelative(padding - compoundDrawablePadding, padding  - compoundDrawablePadding,
-            padding, padding  - compoundDrawablePadding)
+        setPaddingRelative(
+            padding - compoundDrawablePadding, padding - compoundDrawablePadding,
+            padding, padding - compoundDrawablePadding
+        )
 
         clientId = attributes.getString(R.styleable.SignInWithAppleButton_clientId) ?: clientId
         redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_redirectUri) ?: redirectUri
@@ -94,20 +87,10 @@ class SignInWithAppleButton @JvmOverloads constructor(
         scope = attributes.getString(R.styleable.SignInWithAppleButton_scope) ?: scope
 
         setOnClickListener {
-            val webView = buildWebView()
-            dialog = Dialog(context, Theme_Black_NoTitleBar_Fullscreen)
-            dialog?.setContentView(webView)
-            webView.loadUrl(buildUri())
-            dialog?.show()
+            buildCustomTabIntent().launchUrl(context, buildUri())
         }
 
         attributes.recycle()
-    }
-
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-        callback = null
-        dialog = null
     }
 
     /*
@@ -129,13 +112,13 @@ class SignInWithAppleButton @JvmOverloads constructor(
             appendQueryParameter("scope", scope)
             appendQueryParameter("state", state)
         }.build()
-        .toString()
 
-    private fun buildWebView() = WebView(context).apply {
-        webViewClient = webClient
-        settings.apply {
-            javaScriptEnabled = true
-            javaScriptCanOpenWindowsAutomatically = true
-        }
+    private fun buildCustomTabIntent(): CustomTabsIntent {
+        val customTabsIntent = CustomTabsIntent.Builder().apply {
+            setToolbarColor(ContextCompat.getColor(context, R.color.black))
+            setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.white))
+        }.build()
+        customTabsIntent.intent.`package` = tabPackage
+        return customTabsIntent
     }
 }

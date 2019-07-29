@@ -31,6 +31,10 @@ class SampleActivity : AppCompatActivity() {
         signInWithAppleButtonBlack = findViewById(R.id.sign_in_with_apple_button_black)
         signInWithAppleButtonWhite = findViewById(R.id.sign_in_with_apple_button_white)
         signInWithAppleButtonWhiteOutline = findViewById(R.id.sign_in_with_apple_button_white_outline)
+
+        signInWithAppleButtonBlack.bindService(this)
+        signInWithAppleButtonWhite.bindService(this)
+        signInWithAppleButtonWhiteOutline.bindService(this)
     }
 
     override fun onResume() {
@@ -46,11 +50,22 @@ class SampleActivity : AppCompatActivity() {
         signInWithAppleButtonWhite.callback = null
         signInWithAppleButtonWhiteOutline.callback = null
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        signInWithAppleButtonBlack.unbindService(this)
+        signInWithAppleButtonWhite.unbindService(this)
+        signInWithAppleButtonWhiteOutline.unbindService(this)
+    }
+
     private fun setUpSignInButton(button: SignInWithAppleButton) = button.apply {
         //TODO: Replace redirectUri and clientId with your own values
-        redirectUri = "com.your.client.id.here"
-        clientId = "https://your-redirect-uri.com/callback"
+        redirectUri = "https://kconner.com/sign-in-with-apple-button-android-example-app/callback"
+        clientId = "com.kevinconner.sign-in-with-apple-button-android-example-site"
         scope = "email name"
+//        redirectUri = "com.your.client.id.here"
+//        clientId = "https://your-redirect-uri.com/callback"
+//        scope = "email name"
         callback = signInCallback
     }
 }
