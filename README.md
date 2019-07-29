@@ -1,6 +1,6 @@
 # Sign In with Apple Button for Android
 
-A library for adding [Sign in With Apple](https://developer.apple.com/sign-in-with-apple/) to Android apps.
+A library for adding [Sign In With Apple](https://developer.apple.com/sign-in-with-apple/) to Android apps.
 
 [![CircleCI](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android.svg?style=svg&circle-token=94aaaafd543585e19434a36498601ec291d29e62)](https://circleci.com/gh/willowtreeapps/sign-in-with-apple-button-android) [![License MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat)]() [![Public Yes](https://img.shields.io/badge/Public-yes-green.svg?style=flat)]()
 
@@ -37,7 +37,7 @@ We built this library to make it as painless as possible to add Sign In with App
 
 First, follow Apple's instructions to set up Sign In with Apple [in your iOS app](https://help.apple.com/developer-account/#/devde676e696) and [for a web service](https://help.apple.com/developer-account/#/dev1c0e25352). It is the web service setup that you'll use from Android, but you need both.
 
-> More setup is necessary for backend operations, but the above is all you need to use this library. For more detail, you can read Aaron Parecki's walkthrough, [What the Heck is Sign In with Apple?](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple)
+> More setup is necessary for backend operations, but the above is all you need to use this library. For more detail, you can read Aaron Parecki's walkthrough, [What the Heck is Sign In with Apple?](https://developer.okta.com/blog/2019/06/04/what-the-heck-is-sign-in-with-apple) You may also benefit from [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md), which documents idiosyncrasies compared to the standard, particularly during the beta period.
 
 You should have created:
 
@@ -160,7 +160,7 @@ You can adjust this sample project with your service configuration and try signi
     - [Juice](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app), Apple's sample project, as seen in [WWDC 2019, Session 706 - Introducing Sign In with Apple](https://developer.apple.com/videos/play/wwdc19/706/)
     - [@react-native-community/apple-authentication](https://github.com/react-native-community/apple-authentication), a React Native library
     - [OmniAuth::Apple](https://github.com/nhosoya/omniauth-apple), an OmniAuth strategy for Rails web apps
-- Backend components offering validaton of Sign In with Apple tokens
+- Backend components for Sign In with Apple
     - [apple-auth](https://github.com/ananay/apple-auth), an NPM package for JavaScript backends
     - [apple_id](https://github.com/nov/apple_id), a gem for Ruby backends
 
