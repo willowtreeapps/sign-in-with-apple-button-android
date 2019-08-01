@@ -82,7 +82,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         attributes.recycle()
 
-        background = ContextCompat.getDrawable(context, buttonColorStyle.background)
+        background = ContextCompat.getDrawable(context, buttonColorStyle.background)?.mutate()
         (background as GradientDrawable).cornerRadius = cornerRadius
 
         val iconVerticalOffset = resources.getDimensionPixelOffset(R.dimen.text_view_icon_vertical_offset)
