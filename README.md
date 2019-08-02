@@ -165,10 +165,10 @@ You can adjust this sample project with your service configuration and try signi
 
 ## Roadmap
 
-- Use a Chrome Custom Tab so users know they are not being phished
-- More fidelity to the HIG
-- Publication
-- 1.0 after Sign In with Apple itself is released
+- Publish on Maven and explain installation as a dependency
+- Use a Chrome Custom Tab on Marshmallow and later so users know they are not being phished
+    - This will require consuming apps to configure App Links, but it's the Right Way to do it for OAuth security
+- Keep up with changes to Sign In with Apple during beta; 1.0 when the service itself is 1.0
 - Material-themed Sign In with Apple button?
 
 ## Contributing
