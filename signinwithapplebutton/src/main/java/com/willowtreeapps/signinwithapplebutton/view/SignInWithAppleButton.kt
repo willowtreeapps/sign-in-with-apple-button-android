@@ -8,11 +8,12 @@ import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
-import android.view.Gravity
+import android.view.LayoutInflater
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.willowtreeapps.signinwithapplebutton.AppleSignInCallback
 import com.willowtreeapps.signinwithapplebutton.R
@@ -23,11 +24,10 @@ import java.util.*
 class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
-) : Button(context, attrs, defStyleAttr, defStyleRes) {
+) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
     var redirectUri: String = ""
     var clientId: String = ""
     var state: String = UUID.randomUUID().toString()
-    //TODO: Figure out the behavior/default for scope; default was "email name"
     var scope: String = ""
 
     var dialog: Dialog? = null
@@ -59,39 +59,42 @@ class SignInWithAppleButton @JvmOverloads constructor(
     }
 
     init {
-        gravity = Gravity.CENTER
-        compoundDrawablePadding = resources.getDimensionPixelOffset(R.dimen.icon_padding)
+        LayoutInflater.from(context).inflate(R.layout.sign_in_with_apple_button, this, true)
+    }
 
-        val padding = resources.getDimensionPixelOffset(R.dimen.button_padding_default)
+    private val textView: TextView = findViewById(R.id.textView)
 
+    init {
         val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
-
-        val buttonText = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTextType, SignInText.SIGN_IN.ordinal)
-        text = resources.getString(SignInText.values()[buttonText].text)
-
-        val buttonColorStyleIndex =
-            attributes.getInt(R.styleable.SignInWithAppleButton_buttonColorStyle, SignInTheme.BLACK.ordinal)
-        val buttonColorStyle = SignInTheme.values()[buttonColorStyleIndex]
-        val radius = attributes.getDimension(
-            R.styleable.SignInWithAppleButton_cornerRadius,
-            resources.getDimension(R.dimen.corner_radius_default)
-        )
-
-        setTextColor(ContextCompat.getColorStateList(context, buttonColorStyle.textColor))
-
-        background = ContextCompat.getDrawable(context, buttonColorStyle.background)
-        (background as GradientDrawable).cornerRadius = radius
-
-        val icon = ContextCompat.getDrawable(context, buttonColorStyle.icon)?.mutate()
-        setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
-
-        setPaddingRelative(padding - compoundDrawablePadding, padding  - compoundDrawablePadding,
-            padding, padding  - compoundDrawablePadding)
 
         clientId = attributes.getString(R.styleable.SignInWithAppleButton_clientId) ?: clientId
         redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_redirectUri) ?: redirectUri
         state = attributes.getString(R.styleable.SignInWithAppleButton_state) ?: state
         scope = attributes.getString(R.styleable.SignInWithAppleButton_scope) ?: scope
+
+        val text = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTextType, SignInText.SIGN_IN.ordinal)
+
+        val buttonColorStyleIndex =
+            attributes.getInt(R.styleable.SignInWithAppleButton_buttonColorStyle, SignInTheme.BLACK.ordinal)
+        val buttonColorStyle = SignInTheme.values()[buttonColorStyleIndex]
+
+        val cornerRadius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius, resources.getDimension(R.dimen.button_default_corner_radius))
+
+        attributes.recycle()
+
+        background = ContextCompat.getDrawable(context, buttonColorStyle.background)?.mutate()
+        (background as GradientDrawable).cornerRadius = cornerRadius
+
+        val iconVerticalOffset = resources.getDimensionPixelOffset(R.dimen.text_view_icon_vertical_offset)
+        textView.text = resources.getString(SignInText.values()[text].text)
+        textView.setTextColor(ContextCompat.getColorStateList(context, buttonColorStyle.textColor))
+
+        val icon = ContextCompat.getDrawable(context, buttonColorStyle.icon)?.mutate()
+        if (icon != null) {
+            icon.setBounds(0, iconVerticalOffset, icon.intrinsicWidth, icon.intrinsicHeight + iconVerticalOffset)
+
+            textView.setCompoundDrawablesRelative(icon, null, null, null)
+        }
 
         setOnClickListener {
             val webView = buildWebView()
@@ -100,8 +103,6 @@ class SignInWithAppleButton @JvmOverloads constructor(
             webView.loadUrl(buildUri())
             dialog?.show()
         }
-
-        attributes.recycle()
     }
 
     override fun onDetachedFromWindow() {

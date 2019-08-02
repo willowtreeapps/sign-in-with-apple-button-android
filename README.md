@@ -10,8 +10,6 @@ This library includes a `SignInWithAppleButton` class. You can style the button 
 
 ![Apple HIG themed button in black with default corner radius](docs/hig-button-black.png) ![Apple HIG themed button in white with rounder corners](docs/hig-button-white.png) ![Apple HIG themed button in outlined white with even rounder corners](docs/hig-button-white-outline.png)
 
-> TODO: Disclaim ownership of the Apple logo
-
 You can add this button to your login screen. When tapped, the button presents Apple's OAuth login flow in a web view. After the user signs in, your callback will receive an authorization code. You can then pass the authorization code to your backend's third party login endpoint.
 
 ![OAuth flow diagram](docs/flow-diagram.png)
@@ -165,10 +163,10 @@ You can adjust this sample project with your service configuration and try signi
 
 ## Roadmap
 
-- Use a Chrome Custom Tab so users know they are not being phished
-- More fidelity to the HIG
-- Publication
-- 1.0 after Sign In with Apple itself is released
+- Publish on Maven and explain installation as a dependency
+- Use a Chrome Custom Tab on Marshmallow and later so users know they are not being phished
+    - This will require consuming apps to configure App Links, but it's the Right Way to do it for OAuth security
+- Keep up with changes to Sign In with Apple during beta; 1.0 when the service itself is 1.0
 - Material-themed Sign In with Apple button?
 
 ## Contributing
@@ -176,3 +174,8 @@ You can adjust this sample project with your service configuration and try signi
 Contributions are welcome. Please see the [Contributing guidelines](CONTRIBUTING.md).
 
 This project has adopted a [code of conduct](CODE_OF_CONDUCT.md) defined by the [Contributor Covenant](http://contributor-covenant.org), the same used by the [Swift language](https://swift.org) and countless other open source software teams.
+
+## Disclaimer
+
+The Apple logo belongs to Apple. It's included in this library because it's specified in Apple's [Human Interface guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/). We're using it in good faith according to its intended purpose. As a consumer of this library, please read the HIG and avoid misusing Apple's intellectual property.
+

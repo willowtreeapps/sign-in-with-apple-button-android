@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:minHeight="@dimen/button_minimum_height" android:paddingStart="@dimen/button_horizontal_padding"
+             android:paddingEnd="@dimen/button_horizontal_padding"
+>
+
+    <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:text="hello"
+            android:drawablePadding="@dimen/text_view_content_spacing" android:maxLines="1"
+            android:ellipsize="end"/>
+</FrameLayout>
