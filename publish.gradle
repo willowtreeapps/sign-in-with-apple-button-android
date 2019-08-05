@@ -59,9 +59,18 @@ publishing {
 
     repositories {
         maven {
-            def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-            def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            switch (project.findProperty('releaseMode')) {
+                case "release":
+                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    break
+                case "snapshot":
+                    url = 'https://oss.sonatype.org/content/repositories/snapshots'
+                    version = version + "-SNAPSHOT"
+                    break
+                default:
+                    url = 'https://invalid'
+                    break
+            }
 
             credentials {
                 username project.findProperty('sonatype.username')
