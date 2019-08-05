@@ -38,7 +38,6 @@ publishing {
                     license {
                         name = 'MIT License'
                         url = 'https://opensource.org/licenses/mit-license.php'
-                        distribution 'repo'
                     }
                 }
 
