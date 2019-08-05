@@ -24,7 +24,7 @@ task javadocsJar(type: Jar) {
 
 publishing {
     publications {
-        lib(MavenPublication) {
+        mavenAar(MavenPublication) {
             from components.android
             artifact sourcesJar
             artifact javadocsJar
@@ -33,6 +33,7 @@ publishing {
                 name = 'Sign In with Apple Button for Android'
                 description = 'Add a Sign In button for Sign In With Apple'
                 url = siteUrl
+
                 licenses {
                     license {
                         name = 'MIT License'
@@ -40,12 +41,14 @@ publishing {
                         distribution 'repo'
                     }
                 }
+
                 developers {
                     developer {
                         id = 'MattCorbett488'
                         name = 'Matt Corbett'
                     }
                 }
+
                 scm {
                     url = siteUrl
                     connection = gitUrl
@@ -54,11 +57,13 @@ publishing {
             }
         }
     }
+
     repositories {
         maven {
             def releasesRepoUrl = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
             def snapshotsRepoUrl = 'https://oss.sonatype.org/content/repositories/snapshots'
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
             credentials {
                 username project.findProperty('sonatype.username')
                 password project.findProperty('sonatype.password')
@@ -69,6 +74,6 @@ publishing {
 
 if (project.hasProperty("signing.keyId")) {
     signing {
-        sign publishing.publications.lib
+        sign publishing.publications.mavenAar
     }
 }

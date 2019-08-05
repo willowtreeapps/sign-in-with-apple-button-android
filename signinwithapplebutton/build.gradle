@@ -7,7 +7,6 @@ android {
     compileSdkVersion 28
     buildToolsVersion "29.0.0"
 
-
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
@@ -17,7 +16,6 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -38,6 +36,7 @@ dependencies {
     implementation "androidx.core:core-ktx:1.0.2"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
+
 repositories {
     mavenCentral()
 }
