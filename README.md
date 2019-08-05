@@ -54,7 +54,39 @@ From this setup, you will need two OAuth arguments to use this library:
 
 ### Installation
 
-TODO: How to include the app with Maven, directly from source, etc. … whatever the common methods are
+Include as a dependency using Maven:
+
+```xml
+<dependency>
+    <groupId>com.willowtreeapps</groupId>
+    <artifactId>signinwithapplebutton</artifactId>
+    <version>0.1</version>
+</dependency>
+```
+
+…or Gradle:
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.1'
+}
+```
+
+Snapshot versions are also available.
+
+```groovy
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
+dependencies {
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.1-SNAPSHOT'
+}
+```
 
 ### Configuration
 
