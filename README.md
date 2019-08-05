@@ -173,7 +173,7 @@ If the user dismisses the authentication screen intentionally, your `AppleSignIn
 
 ## Sample application
 
-We've included a sample Android app in the `sample` folder. This app mirrors [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton), so you can compare the two.
+We've included a sample Android app in the `sample` folder. This app is comparable to [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton).
 
 The sample app demonstrates:
 
