@@ -208,5 +208,5 @@ This project has adopted a [code of conduct](CODE_OF_CONDUCT.md) defined by the 
 
 ## Disclaimer
 
-The Apple logo belongs to Apple. It's included in this library because it's specified in Apple's [Human Interface guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/). We're using it in good faith according to its intended purpose. As a consumer of this library, please read the HIG and avoid misusing Apple's intellectual property.
+The Apple logo belongs to Apple. It's included in this library because it's specified in Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/). We're using it in good faith according to its intended purpose. As a consumer of this library, please read the HIG and avoid misusing Apple's intellectual property.
 
