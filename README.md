@@ -67,7 +67,13 @@ Include as a dependency using Maven:
 …or Gradle:
 
 ```groovy
-implementation 'com.willowtreeapps:signinwithapplebutton:0.1'
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.1'
+}
 ```
 
 Snapshot versions are also available.
