@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_minimum_height">38dp</dimen>
+    <dimen name="button_horizontal_padding">9dp</dimen>
+    <dimen name="text_view_icon_vertical_offset">-1dp</dimen>
+    <dimen name="text_view_content_spacing">6dp</dimen>
+    <dimen name="button_default_corner_radius">4dp</dimen>
+</resources>

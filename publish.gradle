@@ -1,0 +1,87 @@
+apply plugin: 'signing'
+apply plugin: 'digital.wup.android-maven-publish'
+
+group = 'com.willowtreeapps'
+version = '0.1'
+
+def siteUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android'
+def gitUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android.git'
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from(android.sourceSets.main.java.srcDirs)
+}
+
+task androidJavadocs(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    failOnError = false
+}
+
+task javadocsJar(type: Jar) {
+    classifier = 'javadoc'
+    from(androidJavadocs)
+}
+
+publishing {
+    publications {
+        mavenAar(MavenPublication) {
+            from components.android
+            artifact sourcesJar
+            artifact javadocsJar
+
+            pom {
+                name = 'Sign In with Apple Button for Android'
+                description = 'Add a Sign In button for Sign In With Apple'
+                url = siteUrl
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/mit-license.php'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'MattCorbett488'
+                        name = 'Matt Corbett'
+                    }
+                }
+
+                scm {
+                    url = siteUrl
+                    connection = gitUrl
+                    developerConnection = gitUrl
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            switch (project.findProperty('releaseMode')) {
+                case "release":
+                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
+                    break
+                case "snapshot":
+                    url = 'https://oss.sonatype.org/content/repositories/snapshots'
+                    version = version + "-SNAPSHOT"
+                    break
+                default:
+                    url = 'https://invalid'
+                    break
+            }
+
+            credentials {
+                username project.findProperty('sonatype.username')
+                password project.findProperty('sonatype.password')
+            }
+        }
+    }
+}
+
+if (project.hasProperty("signing.keyId")) {
+    signing {
+        sign publishing.publications.mavenAar
+    }
+}
