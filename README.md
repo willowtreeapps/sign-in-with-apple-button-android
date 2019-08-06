@@ -60,7 +60,7 @@ Include as a dependency using Maven:
 <dependency>
     <groupId>com.willowtreeapps</groupId>
     <artifactId>signinwithapplebutton</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.1'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.2'
 }
 ```
 
@@ -84,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.1-SNAPSHOT'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.2-SNAPSHOT'
 }
 ```
 
@@ -94,9 +94,9 @@ Add a `SignInWithAppleButton` to your login screen's layout.
 
 Configure the button's appearance properties in layout XML:
 
-- `buttonColorStyle`: Specify an enum value, `"black"` (default), `"white"`, or `"whiteOutline"`.
-- `signInText`: Specify an enum value, `"signInWithApple"` (default) or `"continueWithApple"`.
-- `cornerRadius`: Specify a dimension, like `"4dp"` (default), `"0dp"`, `"8px"`, etc.
+- `sign_in_with_apple_button_colorStyle`: Specify an enum value, `"black"` (default), `"white"`, or `"whiteOutline"`.
+- `sign_in_with_apple_button_textType`: Specify an enum value, `"signInWithApple"` (default) or `"continueWithApple"`.
+- `sign_in_with_apple_button_cornerRadius`: Specify a dimension, like `"4dp"` (default), `"0dp"`, `"8px"`, etc.
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
@@ -119,12 +119,12 @@ Set up a `SignInWithApple` button via XML, then set the callback in code:
     android:id="@+id/sign_in_with_apple_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:buttonColorStyle="black"
-    app:signInText="signInWithApple"
-    app:cornerRadius="4dp"
-    app:clientId="com.your.client.id.here"
-    app:redirectUri="https://your-redirect-uri.com/callback"
-    app:scope="email" />
+    app:sign_in_with_apple_button_colorStyle="black"
+    app:sign_in_with_apple_button_textType="signInWithApple"
+    app:sign_in_with_apple_button_cornerRadius="4dp"
+    app:sign_in_with_apple_button_clientId="com.your.client.id.here"
+    app:sign_in_with_apple_button_redirectUri="https://your-redirect-uri.com/callback"
+    app:sign_in_with_apple_button_scope="email" />
 ```
 
 …
@@ -142,9 +142,9 @@ Or leave the service properties out of XML, and enter them in code:
     android:id="@+id/sign_in_with_apple_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:buttonColorStyle="black"
-    app:signInText="signInWithApple"
-    app:cornerRadius="4dp" />
+    app:sign_in_with_apple_button_colorStyle="black"
+    app:sign_in_with_apple_button_textType="signInWithApple"
+    app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```
 
 …

@@ -25,10 +25,11 @@ class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
-    var redirectUri: String = ""
     var clientId: String = ""
-    var state: String = UUID.randomUUID().toString()
+    var redirectUri: String = ""
     var scope: String = ""
+
+    var state: String = UUID.randomUUID().toString()
 
     var dialog: Dialog? = null
 
@@ -67,29 +68,29 @@ class SignInWithAppleButton @JvmOverloads constructor(
     init {
         val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
 
-        clientId = attributes.getString(R.styleable.SignInWithAppleButton_clientId) ?: clientId
-        redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_redirectUri) ?: redirectUri
-        state = attributes.getString(R.styleable.SignInWithAppleButton_state) ?: state
-        scope = attributes.getString(R.styleable.SignInWithAppleButton_scope) ?: scope
+        clientId = attributes.getString(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_clientId) ?: clientId
+        redirectUri = attributes.getString(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_redirectUri) ?: redirectUri
+        state = attributes.getString(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_state) ?: state
+        scope = attributes.getString(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_scope) ?: scope
 
-        val text = attributes.getInt(R.styleable.SignInWithAppleButton_buttonTextType, SignInText.SIGN_IN.ordinal)
+        val colorStyleIndex =
+            attributes.getInt(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_colorStyle, SignInTheme.BLACK.ordinal)
+        val colorStyle = SignInTheme.values()[colorStyleIndex]
 
-        val buttonColorStyleIndex =
-            attributes.getInt(R.styleable.SignInWithAppleButton_buttonColorStyle, SignInTheme.BLACK.ordinal)
-        val buttonColorStyle = SignInTheme.values()[buttonColorStyleIndex]
+        val text = attributes.getInt(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_textType, SignInText.SIGN_IN.ordinal)
 
-        val cornerRadius = attributes.getDimension(R.styleable.SignInWithAppleButton_cornerRadius, resources.getDimension(R.dimen.button_default_corner_radius))
+        val cornerRadius = attributes.getDimension(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_cornerRadius, resources.getDimension(R.dimen.sign_in_with_apple_button_cornerRadius_default))
 
         attributes.recycle()
 
-        background = ContextCompat.getDrawable(context, buttonColorStyle.background)?.mutate()
+        background = ContextCompat.getDrawable(context, colorStyle.background)?.mutate()
         (background as GradientDrawable).cornerRadius = cornerRadius
 
-        val iconVerticalOffset = resources.getDimensionPixelOffset(R.dimen.text_view_icon_vertical_offset)
+        val iconVerticalOffset = resources.getDimensionPixelOffset(R.dimen.sign_in_with_apple_button_textView_icon_verticalOffset)
         textView.text = resources.getString(SignInText.values()[text].text)
-        textView.setTextColor(ContextCompat.getColorStateList(context, buttonColorStyle.textColor))
+        textView.setTextColor(ContextCompat.getColorStateList(context, colorStyle.textColor))
 
-        val icon = ContextCompat.getDrawable(context, buttonColorStyle.icon)?.mutate()
+        val icon = ContextCompat.getDrawable(context, colorStyle.icon)?.mutate()
         if (icon != null) {
             icon.setBounds(0, iconVerticalOffset, icon.intrinsicWidth, icon.intrinsicHeight + iconVerticalOffset)
 
@@ -125,8 +126,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
         .buildUpon().apply {
             appendQueryParameter("response_type", "code")
             appendQueryParameter("v", "1.1.6")
-            appendQueryParameter("redirect_uri", redirectUri)
             appendQueryParameter("client_id", clientId)
+            appendQueryParameter("redirect_uri", redirectUri)
             appendQueryParameter("scope", scope)
             appendQueryParameter("state", state)
         }.build()
