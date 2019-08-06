@@ -155,7 +155,7 @@ We've included a sample Android app in the `sample` folder. This app is comparab
 The sample app demonstrates:
 
 1. Adding the button and styling it, in `activity_sample.xml`
-2. Configuring the button with service details and a callback object, in `SampleActivity.onResume()`
+2. Configuring the button with service details and a callback object, in `SampleActivity.onStart()`
 3. Making use of the authorization code on success, in the callback's `onSignInSuccess()`
 
 You can adjust this sample project with your service configuration and try signing in.

@@ -33,8 +33,8 @@ class SampleActivity : AppCompatActivity() {
         signInWithAppleButtonWhiteOutline = findViewById(R.id.sign_in_with_apple_button_white_outline)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onStart() {
+        super.onStart()
 
         // Replace clientId and redirectUri with your own values.
         val service = SignInWithAppleService(
