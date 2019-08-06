@@ -11,32 +11,41 @@ class SignInWebViewClient(
     private val callback: SignInWithAppleService.Callback
 ) : WebViewClient() {
 
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?) = when {
-        request?.url?.toString()?.contains("appleid.apple.com") == true -> {
-            view?.loadUrl(request.url?.toString() ?: "")
-            true
-        }
-        request?.url?.toString()?.contains(attempt.redirectUri) == true -> {
-            Log.d("SIGN_IN_WITH_APPLE", "${request.url?.toString()}")
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        val url = request?.url
 
-            val codeParameter = request.url.getQueryParameter("code")
-            val stateParameter = request.url.getQueryParameter("state")
-
-            when {
-                codeParameter == null -> {
-                    callback.onSignInFailure(IllegalArgumentException("code not returned"))
-                }
-                attempt.state != stateParameter -> {
-                    callback.onSignInFailure(IllegalArgumentException("state does not match"))
-                }
-                else -> {
-                    callback.onSignInSuccess(codeParameter)
-                }
+        return when {
+            url == null -> {
+                false
             }
+            url.toString().contains("appleid.apple.com") -> {
+                view?.loadUrl(url.toString())
+                true
+            }
+            url.toString().contains(attempt.redirectUri) -> {
+                Log.d("SIGN_IN_WITH_APPLE", url.toString())
 
-            true
+                val codeParameter = url.getQueryParameter("code")
+                val stateParameter = url.getQueryParameter("state")
+
+                when {
+                    codeParameter == null -> {
+                        callback.onSignInFailure(IllegalArgumentException("code not returned"))
+                    }
+                    stateParameter != attempt.state -> {
+                        callback.onSignInFailure(IllegalArgumentException("state does not match"))
+                    }
+                    else -> {
+                        callback.onSignInSuccess(codeParameter)
+                    }
+                }
+
+                true
+            }
+            else -> {
+                false
+            }
         }
-        else -> false
     }
 
 }
