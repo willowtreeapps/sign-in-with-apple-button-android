@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="SignInWithAppleButton">
-        <attr name="sign_in_with_apple_button_redirectUri" format="string"/>
         <attr name="sign_in_with_apple_button_colorStyle" format="enum">
             <enum name="white" value="0" />
             <enum name="black" value="1" />
@@ -12,8 +11,5 @@
             <enum name="continueWithApple" value="1" />
         </attr>
         <attr name="sign_in_with_apple_button_cornerRadius" format="dimension" />
-        <attr name="sign_in_with_apple_button_clientId" format="string" />
-        <attr name="sign_in_with_apple_button_state" format="string" />
-        <attr name="sign_in_with_apple_button_scope" format="string" />
     </declare-styleable>
 </resources>

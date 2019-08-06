@@ -100,42 +100,18 @@ Configure the button's appearance properties in layout XML:
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-Configure the button's service authentication properties, either in layout XML or at runtime:
+At runtime, configure the button's `service` property with an instance of `SignInWithAppleService`. When creating the service object, supply these values:
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
 - `scope`: Specify a space-delimited string of OpenID scopes, like "name email".
+- `callback`: Provide an instance of `AppleSignInCallback` including success and failure callback functions.
 
 > According to our understanding of OpenID Connect, the "openid" scope should be included. But at this time of writing, that causes the authentication page to fail to initialize. Beta idiosyncrasies like these are documented in [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md).
 
-Finally, configure the `callback` property at runtime with an instance of `AppleSignInCallback`. To create that object, you'll implement success and failure callback functions.
+#### Example
 
-#### Examples
-
-Set up a `SignInWithApple` button via XML, then set the callback in code:
-
-```xml
-<com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-    android:id="@+id/sign_in_with_apple_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    app:sign_in_with_apple_button_colorStyle="black"
-    app:sign_in_with_apple_button_textType="signInWithApple"
-    app:sign_in_with_apple_button_cornerRadius="4dp"
-    app:sign_in_with_apple_button_clientId="com.your.client.id.here"
-    app:sign_in_with_apple_button_redirectUri="https://your-redirect-uri.com/callback"
-    app:sign_in_with_apple_button_scope="email" />
-```
-
-…
-
-```kotlin
-signInWithAppleButton.callback = object : AppleSignInCallback {
-    …
-}
-```
-
-Or leave the service properties out of XML, and enter them in code:
+Set up a `SignInWithApple` button via XML:
 
 ```xml
 <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
@@ -147,25 +123,26 @@ Or leave the service properties out of XML, and enter them in code:
     app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```
 
-…
+Then configure the service in code:
 
 ```kotlin
 val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
 
-signInWithAppleButton.clientId = "com.your.client.id.here"
-signInWithAppleButton.redirectUri = "https://your-redirect-uri.com/callback"
-signInWithAppleButton.scope = "email"
-
-signInWithAppleButton.callback = object : AppleSignInCallback {
-    …
-}
+signInWithAppleButton.service = SignInWithAppleService(
+    clientId = "com.your.client.id.here",
+    redirectUri = "https://your-redirect-uri.com/callback",
+    scope = "email",
+    callback = object : AppleSignInCallback {
+        …
+    }
+)
 ```
 
 ### Behavior
 
 When the user taps the button, it will present a web view configured to let the user authorize your service as an OAuth client of their Apple ID. After the user authorizes access, Apple will forward to the redirect URI and include an authorization code. The web view will intercept this request and locate the authorization code.
 
-If the user completes authentication, your `AppleSignInCallback` object will receive an `AppleSignInSuccess` value in a call to `onSignInSuccess`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+If the user completes authentication, your `AppleSignInCallback` object will receive the authorization code value in a call to `onSignInSuccess`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
 
 If instead there is a failure, your `AppleSignInCallback` object will receive that error in a call to `onSignInFailure`.
 
@@ -178,7 +155,7 @@ We've included a sample Android app in the `sample` folder. This app is comparab
 The sample app demonstrates:
 
 1. Adding the button and styling it, in `activity_sample.xml`
-2. Configuring the button with service details and a callback object, in `SampleActivity.setUpSignInButton()`
+2. Configuring the button with service details and a callback object, in `SampleActivity.onResume()`
 3. Making use of the authorization code on success, in the callback's `onSignInSuccess()`
 
 You can adjust this sample project with your service configuration and try signing in.
