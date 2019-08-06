@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android'
 android {
     compileSdkVersion 28
     buildToolsVersion "29.0.0"
+    resourcePrefix "sign_in_with_apple_button_"
 
     defaultConfig {
         minSdkVersion 21
@@ -24,7 +25,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
