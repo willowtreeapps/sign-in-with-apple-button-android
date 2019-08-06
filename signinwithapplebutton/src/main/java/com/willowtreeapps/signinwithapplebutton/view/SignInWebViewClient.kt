@@ -23,7 +23,7 @@ class SignInWebViewClient(
                 true
             }
             url.toString().contains(attempt.redirectUri) -> {
-                Log.d("SIGN_IN_WITH_APPLE", url.toString())
+                Log.d("SIGN_IN_WITH_APPLE", "Web view was forwarded to redirect URI")
 
                 val codeParameter = url.getQueryParameter("code")
                 val stateParameter = url.getQueryParameter("state")
