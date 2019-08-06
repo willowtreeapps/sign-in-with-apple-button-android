@@ -60,7 +60,7 @@ Include as a dependency using Maven:
 <dependency>
     <groupId>com.willowtreeapps</groupId>
     <artifactId>signinwithapplebutton</artifactId>
-    <version>0.1</version>
+    <version>0.2</version>
 </dependency>
 ```
 
@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.1'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.2'
 }
 ```
 
@@ -84,7 +84,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.1-SNAPSHOT'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.2-SNAPSHOT'
 }
 ```
 
