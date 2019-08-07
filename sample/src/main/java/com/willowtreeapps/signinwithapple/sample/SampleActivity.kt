@@ -5,24 +5,17 @@ import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
+import java.lang.ref.WeakReference
 
-class SampleActivity : AppCompatActivity() {
+class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
 
     private lateinit var signInWithAppleButtonBlack: SignInWithAppleButton
     private lateinit var signInWithAppleButtonWhite: SignInWithAppleButton
     private lateinit var signInWithAppleButtonWhiteOutline: SignInWithAppleButton
-
-    private val signInCallback = object : SignInWithAppleService.Callback {
-        override fun onSignInSuccess(authorizationCode: String) {
-            Toast.makeText(this@SampleActivity, authorizationCode, LENGTH_SHORT).show()
-        }
-
-        override fun onSignInFailure(error: Throwable) {
-            Log.d("SIGN_IN_WITH_APPLE", "Received error from Apple Sign In ${error.message}")
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,21 +33,26 @@ class SampleActivity : AppCompatActivity() {
         val service = SignInWithAppleService(
             clientId = "com.your.client.id.here",
             redirectUri = "https://your-redirect-uri.com/callback",
-            scope = "email name",
-            callback = signInCallback
+            scope = "email name"
         )
 
-        signInWithAppleButtonBlack.service = service
-        signInWithAppleButtonWhite.service = service
-        signInWithAppleButtonWhiteOutline.service = service
+        signInWithAppleButtonBlack.configure(service, this)
+        signInWithAppleButtonWhite.configure(service, this)
+        signInWithAppleButtonWhiteOutline.configure(service, this)
     }
 
-    override fun onStop() {
-        super.onStop()
+    // SignInWithAppleClient
 
-        signInWithAppleButtonBlack.service = null
-        signInWithAppleButtonWhite.service = null
-        signInWithAppleButtonWhiteOutline.service = null
+    override fun getFragmentManagerForSignInWithApple(): FragmentManager {
+        return supportFragmentManager
+    }
+
+    override fun onSignInWithAppleSuccess(authorizationCode: String) {
+        Toast.makeText(this@SampleActivity, authorizationCode, LENGTH_SHORT).show()
+    }
+
+    override fun onSignInWithAppleFailure(error: Throwable) {
+        Log.d("SIGN_IN_WITH_APPLE", "Received error from Apple Sign In ${error.message}")
     }
 
 }

@@ -1,25 +1,47 @@
 package com.willowtreeapps.signinwithapplebutton
 
 import android.net.Uri
+import android.os.Parcel
+import android.os.Parcelable
 import java.util.*
 
 class SignInWithAppleService(
     private val clientId: String,
     private val redirectUri: String,
-    private val scope: String,
-    val callback: Callback
+    private val scope: String
 ) {
-
-    interface Callback {
-        fun onSignInSuccess(authorizationCode: String)
-        fun onSignInFailure(error: Throwable)
-    }
 
     data class AuthenticationAttempt(
         val authenticationUri: String,
         val redirectUri: String,
         val state: String
-    )
+    ) : Parcelable {
+        constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString()
+        ) {}
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(authenticationUri)
+            parcel.writeString(redirectUri)
+            parcel.writeString(state)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<AuthenticationAttempt> {
+            override fun createFromParcel(parcel: Parcel): AuthenticationAttempt {
+                return AuthenticationAttempt(parcel)
+            }
+
+            override fun newArray(size: Int): Array<AuthenticationAttempt?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
 
     /*
     The authentication page URI we're creating is based off the URI constructed by Apple's JavaScript SDK,
