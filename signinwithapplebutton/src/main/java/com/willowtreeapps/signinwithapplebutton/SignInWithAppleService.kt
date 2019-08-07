@@ -11,15 +11,15 @@ class SignInWithAppleService(
     private val scope: String
 ) {
 
-    data class AuthenticationAttempt(
+    internal data class AuthenticationAttempt(
         val authenticationUri: String,
         val redirectUri: String,
         val state: String
     ) : Parcelable {
         constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString()
+            parcel.readString() ?: "invalid",
+            parcel.readString() ?: "invalid",
+            parcel.readString() ?: "invalid"
         ) {}
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -49,7 +49,7 @@ class SignInWithAppleService(
     See the Sign In With Apple Javascript SDK for comparison:
     https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
     */
-    fun buildAuthenticationAttempt(): AuthenticationAttempt {
+    internal fun buildAuthenticationAttempt(): AuthenticationAttempt {
         val state = UUID.randomUUID().toString()
         val authenticationUri = Uri
             .parse("https://appleid.apple.com/auth/authorize")

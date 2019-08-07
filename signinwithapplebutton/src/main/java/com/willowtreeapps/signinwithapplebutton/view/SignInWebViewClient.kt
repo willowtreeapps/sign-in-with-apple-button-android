@@ -7,7 +7,7 @@ import android.webkit.WebViewClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 
-class SignInWebViewClient(
+internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
     private val callback: SignInWithAppleCallback
 ) : WebViewClient() {

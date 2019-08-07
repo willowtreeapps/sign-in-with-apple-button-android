@@ -13,7 +13,7 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 
 @SuppressLint("SetJavaScriptEnabled")
-class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
+internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
 
     private var service: SignInWithAppleService? = null
     private var callback: SignInWithAppleCallback? = null
