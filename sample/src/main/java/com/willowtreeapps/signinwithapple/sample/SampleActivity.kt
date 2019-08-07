@@ -36,9 +36,11 @@ class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
             scope = "email name"
         )
 
-        signInWithAppleButtonBlack.configure(service, this)
-        signInWithAppleButtonWhite.configure(service, this)
-        signInWithAppleButtonWhiteOutline.configure(service, this)
+        val client: SignInWithAppleClient = this
+
+        signInWithAppleButtonBlack.configure(service, client)
+        signInWithAppleButtonWhite.configure(service, client)
+        signInWithAppleButtonWhiteOutline.configure(service, client)
     }
 
     // SignInWithAppleClient
