@@ -15,10 +15,6 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 @SuppressLint("SetJavaScriptEnabled")
 class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
 
-    companion object {
-        const val TAG = "SignInWebViewDialogFragment"
-    }
-
     private var service: SignInWithAppleService? = null
     private var callback: SignInWithAppleCallback? = null
 
@@ -53,7 +49,7 @@ class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
             authenticationAttempt = savedInstanceState?.getParcelable("authenticationAttempt")
         }
 
-        setStyle(DialogFragment.STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

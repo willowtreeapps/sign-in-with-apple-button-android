@@ -2,6 +2,8 @@ package com.willowtreeapps.signinwithapplebutton.view
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
+import android.os.Parcel
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,14 +13,42 @@ import androidx.core.content.ContextCompat
 import com.willowtreeapps.signinwithapplebutton.R
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
+import java.util.*
 
 class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
 
+    private class SavedState : BaseSavedState {
+
+        var fragmentTag: String? = null
+
+        constructor(source: Parcel) : super(source) {
+            fragmentTag = source.readString()
+        }
+
+        constructor(superState: Parcelable) : super(superState)
+
+        override fun writeToParcel(out: Parcel?, flags: Int) {
+            super.writeToParcel(out, flags)
+            out?.writeString(fragmentTag)
+        }
+
+        companion object CREATOR : Parcelable.Creator<SavedState> {
+            override fun createFromParcel(parcel: Parcel) = SavedState(parcel)
+            override fun newArray(size: Int): Array<SavedState?> = arrayOfNulls(size)
+        }
+
+    }
+
     private var service: SignInWithAppleService? = null
     private var client: SignInWithAppleClient? = null
+    private var fragmentTag: String? = null
+        set(value) {
+            field = value
+            configureFragmentIfCreated()
+        }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.sign_in_with_apple_button, this, true)
@@ -73,12 +103,23 @@ class SignInWithAppleButton @JvmOverloads constructor(
         this.service = service
         this.client = client
 
-        val fragment = client.getFragmentManagerForSignInWithApple()
-            .findFragmentByTag(SignInWebViewDialogFragment.TAG) as? SignInWebViewDialogFragment
+        configureFragmentIfCreated()
+    }
 
-        fragment?.apply {
-            configure(service, client)
+    private fun configureFragmentIfCreated() {
+        val service = service
+        val client = client
+
+        if (service == null || client == null) {
+            return
         }
+
+        val fragmentIfCreated = fragmentTag?.let {
+            client.getFragmentManagerForSignInWithApple().findFragmentByTag(fragmentTag)
+                    as? SignInWebViewDialogFragment
+        }
+
+        fragmentIfCreated?.configure(service, client)
     }
 
     private fun onClick() {
@@ -94,15 +135,31 @@ class SignInWithAppleButton @JvmOverloads constructor(
             return
         }
 
+        fragmentTag = UUID.randomUUID().toString()
+
         val fragment = SignInWebViewDialogFragment()
         fragment.configure(service, client)
-
         fragment.beginAuthenticationAttempt()
 
-        fragment.show(
-            client.getFragmentManagerForSignInWithApple(),
-            SignInWebViewDialogFragment.TAG
-        )
+        fragment.show(client.getFragmentManagerForSignInWithApple(), fragmentTag)
+    }
+
+    public override fun onSaveInstanceState(): Parcelable? {
+        val savedState = super.onSaveInstanceState()?.let {
+            SavedState(it)
+        }
+
+        savedState?.fragmentTag = fragmentTag
+        return savedState
+    }
+
+    public override fun onRestoreInstanceState(state: Parcelable) {
+        if (state is SavedState) {
+            super.onRestoreInstanceState(state.superState)
+            fragmentTag = state.fragmentTag
+        } else {
+            super.onRestoreInstanceState(state)
+        }
     }
 
 }

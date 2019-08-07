@@ -33,13 +33,8 @@ class SignInWithAppleService(
         }
 
         companion object CREATOR : Parcelable.Creator<AuthenticationAttempt> {
-            override fun createFromParcel(parcel: Parcel): AuthenticationAttempt {
-                return AuthenticationAttempt(parcel)
-            }
-
-            override fun newArray(size: Int): Array<AuthenticationAttempt?> {
-                return arrayOfNulls(size)
-            }
+            override fun createFromParcel(parcel: Parcel) = AuthenticationAttempt(parcel)
+            override fun newArray(size: Int): Array<AuthenticationAttempt?> = arrayOfNulls(size)
         }
     }
 
