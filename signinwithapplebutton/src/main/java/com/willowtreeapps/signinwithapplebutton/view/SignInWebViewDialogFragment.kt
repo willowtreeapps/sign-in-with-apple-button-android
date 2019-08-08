@@ -97,8 +97,8 @@ internal class SignInWebViewDialogFragment : DialogFragment() {
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
-        super.onDismiss(dialog)
+    override fun onCancel(dialog: DialogInterface?) {
+        super.onCancel(dialog)
         onCallback(SignInWithAppleResult.Cancel)
     }
 
