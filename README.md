@@ -100,15 +100,15 @@ Configure the button's appearance properties in layout XML:
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-At runtime, supply an implementation of `SignInWithAppleClient`. In this object, you'll give the button access to a FragmentManager for presenting the login interface, as well as callback functions for success and failure cases.
-
-Besides the client, also configure the button with an instance of `SignInWithAppleService`. When creating the service object, supply these values:
+At runtime, configure the button with an instance of `SignInWithAppleService`. When creating the service object, supply these values:
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
 - `scope`: Specify a space-delimited string of OpenID scopes, like "name email".
 
 > According to our understanding of OpenID Connect, the "openid" scope should be included. But at this time of writing, that causes the authentication page to fail to initialize. Beta idiosyncrasies like these are documented in [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md).
+
+Also supply an implementation of `SignInWithAppleClient`. With this object, you'll provide access to a FragmentManager used to present the login interface. You'll also receive callbacks for success and failure cases.
 
 #### Example
 
@@ -124,23 +124,7 @@ Set up a `SignInWithAppleButton` via XML:
     app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```
 
-Implement `SignInWithAppleClient` in your Activity:
-
-```kotlin
-override fun getFragmentManagerForSignInWithApple(): FragmentManager {
-    return supportFragmentManager
-}
-
-override fun onSignInWithAppleSuccess(authorizationCode: String) {
-    // Handle success
-}
-
-override fun onSignInWithAppleFailure(error: Throwable) {
-    // Handle failure
-}
-```
-
-Then configure the service in code:
+In your Activity, create the `SignInWithAppleService`, implement `SignInWithAppleClient`, and configure the button with both:
 
 ```kotlin
 override fun onStart() {
@@ -156,6 +140,20 @@ override fun onStart() {
 
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
     signInWithAppleButton.configure(service, client)
+}
+
+// SignInWithAppleClient
+
+override fun getFragmentManagerForSignInWithApple(): FragmentManager {
+    return supportFragmentManager
+}
+
+override fun onSignInWithAppleSuccess(authorizationCode: String) {
+    // Handle success
+}
+
+override fun onSignInWithAppleFailure(error: Throwable) {
+    // Handle failure
 }
 ```
 
