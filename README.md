@@ -114,11 +114,11 @@ Set up a `SignInWithAppleButton` via XML:
     app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```
 
-In your Activity, create the `SignInWithAppleService`, implement `SignInWithAppleClient`, and configure the button with both:
+In your Activity, create the `SignInWithAppleService`, and configure the button with it:
 
 ```kotlin
-override fun onStart() {
-    super.onStart()
+override fun onCreate(savedInstanceState: Bundle?) {
+    ...
 
     val service = SignInWithAppleService(
         clientId = "com.your.client.id.here",
@@ -126,38 +126,31 @@ override fun onStart() {
         scope = "email"
     )
 
-    val client: SignInWithAppleClient = this
-
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
-    signInWithAppleButton.configure(service, client)
+    signInWithAppleButton.configure(supportFragmentManager, service, client) { result ->
+        when (result) {
+            is SignInWithAppleResult.Success -> {
+                // Handle success
+            }
+            is SignInWithAppleResult.Failure -> {
+                // Handle failure
+            }
+            is SignInWithAppleResult.Cancel -> {
+                // Handle user cancel
+            }
+        }
+    }
 }
-
-// SignInWithAppleClient
-
-override fun getFragmentManagerForSignInWithApple(): FragmentManager {
-    return supportFragmentManager
-}
-
-override fun onSignInWithAppleSuccess(authorizationCode: String) {
-    // Handle success
-}
-
-override fun onSignInWithAppleFailure(error: Throwable) {
-    // Handle failure
-}
-```
-
-> It's necessary to call `configure()` after device rotation. Configuring the button in `onStart()` worked well for us in all cases.
 
 ### Behavior
 
 When the user taps the button, it will present a web view configured to let the user authorize your service as an OAuth client of their Apple ID. After the user authorizes access, Apple will forward to the redirect URI and include an authorization code. The web view will intercept this request and locate the authorization code.
 
-If the user completes authentication, your `AppleSignInClient` will receive the authorization code value in a call to `onSignInWithAppleSuccess()`. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+If the user completes authentication, your callback will receive a `SignInWithAppleResult.Success` with the authorization code. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
 
-If instead there is a failure, your `AppleSignInClient` will receive that error in a call to `onSignInFailure`.
+If instead there is a failure, your callback will receive a `SignInWithAppleResult.Failure` with the error.
 
-If the user dismisses the authentication screen intentionally, your `AppleSignInClient` won't receive any completion call.
+If the user dismisses the authentication screen intentionally, oy will receive a `SignInWithAppleResult.Cancel`.
 
 ## Sample application
 
@@ -166,8 +159,8 @@ We've included a sample Android app in the `sample` folder. This app is comparab
 The sample app demonstrates:
 
 1. Adding the button and styling it, in `activity_sample.xml`
-2. Configuring the button with service details and a client, in `SampleActivity.onStart()`
-3. Making use of the authorization code on success, in the activity's `onSignInWithAppleSuccess()`
+2. Configuring the button with service details and a client, in `SampleActivity.onCreate()`
+3. Making use of the authorization code on success, in the callback.
 
 You can adjust this sample project with your service configuration and try signing in.
 
