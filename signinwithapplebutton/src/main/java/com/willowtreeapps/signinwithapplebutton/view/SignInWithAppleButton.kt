@@ -119,7 +119,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
                     as? SignInWebViewDialogFragment
         }
 
-        fragmentIfCreated?.configure(service, client)
+        fragmentIfCreated?.configure(client)
     }
 
     private fun onClick() {
@@ -137,9 +137,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         fragmentTag = UUID.randomUUID().toString()
 
-        val fragment = SignInWebViewDialogFragment()
-        fragment.configure(service, client)
-        fragment.beginAuthenticationAttempt()
+        val fragment = SignInWebViewDialogFragment(service.buildAuthenticationAttempt())
+        fragment.configure(client)
 
         fragment.show(client.getFragmentManagerForSignInWithApple(), fragmentTag)
     }

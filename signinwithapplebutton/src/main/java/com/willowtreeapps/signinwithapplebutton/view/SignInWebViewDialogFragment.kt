@@ -13,33 +13,26 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 
 @SuppressLint("SetJavaScriptEnabled")
-internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
-
-    private var service: SignInWithAppleService? = null
-    private var callback: SignInWithAppleCallback? = null
+internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCallback {
 
     private var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt? = null
+    private var callback: SignInWithAppleCallback? = null
 
     private val webViewIfCreated: WebView?
         get() = view as? WebView
 
-    fun configure(service: SignInWithAppleService, callback: SignInWithAppleCallback) {
-        this.service = service
+    constructor() : super() {
+        authenticationAttempt = null
+    }
+
+    constructor(authenticationAttempt: SignInWithAppleService.AuthenticationAttempt) {
+        this.authenticationAttempt = authenticationAttempt
+    }
+
+    fun configure(
+        callback: SignInWithAppleCallback
+    ) {
         this.callback = callback
-    }
-
-    fun beginAuthenticationAttempt() {
-        val service = service
-        if (service == null) {
-            Log.w("SIGN_IN_WITH_APPLE", "Service is not configured")
-            return
-        }
-
-        this.authenticationAttempt = service.buildAuthenticationAttempt()
-    }
-
-    private fun endAuthenticationAttempt() {
-        this.authenticationAttempt = null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,16 +98,12 @@ internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCa
     // SignInWithAppleCallback
 
     override fun onSignInWithAppleSuccess(authorizationCode: String) {
-        endAuthenticationAttempt()
-
         dialog?.dismiss()
 
         callback?.onSignInWithAppleSuccess(authorizationCode)
     }
 
     override fun onSignInWithAppleFailure(error: Throwable) {
-        endAuthenticationAttempt()
-
         dialog?.dismiss()
 
         callback?.onSignInWithAppleFailure(error)
