@@ -3,6 +3,7 @@ package com.willowtreeapps.signinwithapplebutton
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.fragment.app.FragmentManager
 import java.util.*
 
 class SignInWithAppleService(
@@ -20,7 +21,7 @@ class SignInWithAppleService(
             parcel.readString() ?: "invalid",
             parcel.readString() ?: "invalid",
             parcel.readString() ?: "invalid"
-        ) {}
+        )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeString(authenticationUri)
@@ -65,5 +66,4 @@ class SignInWithAppleService(
 
         return AuthenticationAttempt(authenticationUri, redirectUri, state)
     }
-
 }

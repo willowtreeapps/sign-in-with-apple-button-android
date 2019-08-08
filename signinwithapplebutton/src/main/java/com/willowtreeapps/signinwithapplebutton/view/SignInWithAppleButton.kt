@@ -8,8 +8,9 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.R
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 
 class SignInWithAppleButton @JvmOverloads constructor(
@@ -22,7 +23,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
     }
 
     private var service: SignInWithAppleService? = null
-    private var client: SignInWithAppleClient? = null
+    private var client: SignInWithAppleCallback? = null
+    private var fragmentManager: FragmentManager? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.sign_in_with_apple_button, this, true)
@@ -73,11 +75,11 @@ class SignInWithAppleButton @JvmOverloads constructor(
         }
     }
 
-    fun configure(service: SignInWithAppleService, client: SignInWithAppleClient) {
+    fun configure(fragmentManager: FragmentManager, service: SignInWithAppleService, client: SignInWithAppleCallback) {
+        this.fragmentManager = fragmentManager
         this.service = service
         this.client = client
 
-        val fragmentManager = client.getFragmentManagerForSignInWithApple()
         val fragmentIfCreated = fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
         fragmentIfCreated?.configure(client)
     }
@@ -101,7 +103,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val fragment = SignInWebViewDialogFragment.newInstance(service.buildAuthenticationAttempt())
         fragment.configure(client)
 
-        fragment.show(client.getFragmentManagerForSignInWithApple(), fragmentTag)
+        fragment.show(fragmentManager, fragmentTag)
     }
 
 }
