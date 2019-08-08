@@ -56,7 +56,7 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
         }
 
         if (authenticationAttempt == null) {
-            Log.w("SIGN_IN_WITH_APPLE", "Authentication attempt is not configured")
+            Log.e("SIGN_IN_WITH_APPLE", "Authentication attempt is not configured")
         }
 
         webView.webViewClient = authenticationAttempt?.let {
@@ -100,13 +100,25 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
     override fun onSignInWithAppleSuccess(authorizationCode: String) {
         dialog?.dismiss()
 
-        callback?.onSignInWithAppleSuccess(authorizationCode)
+        val callback = callback
+        if (callback == null) {
+            Log.e("SIGN_IN_WITH_APPLE", "Callback is not configured")
+            return
+        }
+
+        callback.onSignInWithAppleSuccess(authorizationCode)
     }
 
     override fun onSignInWithAppleFailure(error: Throwable) {
         dialog?.dismiss()
 
-        callback?.onSignInWithAppleFailure(error)
+        val callback = callback
+        if (callback == null) {
+            Log.e("SIGN_IN_WITH_APPLE", "Callback is not configured")
+            return
+        }
+
+        callback.onSignInWithAppleFailure(error)
     }
 
 }
