@@ -11,7 +11,6 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
 
 class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
-
     private lateinit var signInWithAppleButtonBlack: SignInWithAppleButton
     private lateinit var signInWithAppleButtonWhite: SignInWithAppleButton
     private lateinit var signInWithAppleButtonWhiteOutline: SignInWithAppleButton
@@ -56,4 +55,7 @@ class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
         Log.d("SAMPLE_APP", "Received error from Apple Sign In ${error.message}")
     }
 
+    override fun onSignInWithAppleCancel() {
+        Log.d("SAMPLE_APP", "User canceled Apple Sign In")
+    }
 }

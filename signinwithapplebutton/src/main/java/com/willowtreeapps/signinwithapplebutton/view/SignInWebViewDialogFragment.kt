@@ -1,6 +1,7 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -101,6 +102,11 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
     }
 
+    override fun onCancel(dialog: DialogInterface?) {
+        super.onCancel(dialog)
+        onSignInWithAppleCancel()
+    }
+
     // SignInWithAppleCallback
 
     override fun onSignInWithAppleSuccess(authorizationCode: String) {
@@ -127,4 +133,13 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
         callback.onSignInWithAppleFailure(error)
     }
 
+    override fun onSignInWithAppleCancel() {
+        val callback = callback
+        if (callback == null) {
+            Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
+            return
+        }
+
+        callback.onSignInWithAppleCancel()
+    }
 }
