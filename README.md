@@ -90,7 +90,7 @@ Configure the button's appearance properties in layout XML:
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-At runtime, configure the button with an instance of `SignInWithAppleService`. When creating the service object, supply these values:
+At runtime, create an instance of `SignInWithAppleService`, supplying these values:
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
@@ -98,7 +98,7 @@ At runtime, configure the button with an instance of `SignInWithAppleService`. W
 
 > According to our understanding of OpenID Connect, the "openid" scope should be included. But at this time of writing, that causes the authentication page to fail to initialize. Beta idiosyncrasies like these are documented in [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md).
 
-Then configure the button with a `FragmentManager` to present the login interface, the service you created above, and a callback to receive the success/failure/cancel result.
+Configure the button with a `FragmentManager` to present the login interface, the service you created above, and a callback to receive the success/failure/cancel result.
 
 #### Example
 
@@ -114,7 +114,7 @@ Set up a `SignInWithAppleButton` via XML:
     app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```
 
-In your Activity, create the `SignInWithAppleService`, and configure the button with it:
+In your Activity, create the `SignInWithAppleService`, then configure the button:
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +143,8 @@ override fun onCreate(savedInstanceState: Bundle?) {
 }
 ```
 
+> If configuring the button from Java, you can supply an implementation of `SignInWithAppleCallback` instead of a single callback function.
+
 ### Behavior
 
 When the user taps the button, it will present a web view configured to let the user authorize your service as an OAuth client of their Apple ID. After the user authorizes access, Apple will forward to the redirect URI and include an authorization code. The web view will intercept this request and locate the authorization code.
@@ -153,6 +155,8 @@ If instead there is a failure, your callback will receive a `SignInWithAppleResu
 
 If the user dismisses the authentication screen intentionally, you will receive a `SignInWithAppleResult.Cancel`.
 
+> If you supplied a `SignInWithAppleCallback` implementation rather than a single callback function, you will instead receive a call to the corresponding callback method.
+
 ## Sample application
 
 We've included a sample Android app in the `sample` folder. This app is comparable to [Apple's sample project](https://developer.apple.com/documentation/authenticationservices/adding_the_sign_in_with_apple_flow_to_your_app) for the [iOS Sign In with Apple button](https://developer.apple.com/documentation/authenticationservices/asauthorizationappleidbutton).
@@ -160,10 +164,12 @@ We've included a sample Android app in the `sample` folder. This app is comparab
 The sample app demonstrates:
 
 1. Adding the button and styling it, in `activity_sample.xml`
-2. Configuring the button with service details and a client, in `SampleActivity.onCreate()`
-3. Making use of the authorization code on success, in the callback.
+2. Configuring the button with service details and a client, in `SampleActivity.onCreate()` or `SampleJavaActivity.onCreate()`
+3. Making use of the authorization code on success, in the callback
 
 You can adjust this sample project with your service configuration and try signing in.
+
+> `SampleActivity`, the Kotlin sample implementation, is launched by the sample app. To view `SampleJavaActivity`, you would need to update the activity name in the sample app's manifest XML.
 
 ## Related projects
 
