@@ -7,11 +7,13 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.annotation.RequiresApi
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
+import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
-class SignInWebViewClient(
+internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
-    private val callback: SignInWithAppleService.Callback
+    private val callback: SignInWithAppleCallback
 ) : WebViewClient() {
 
     // for API levels < 24
@@ -34,20 +36,20 @@ class SignInWebViewClient(
                 true
             }
             url.toString().contains(attempt.redirectUri) -> {
-                Log.d("SIGN_IN_WITH_APPLE", "Web view was forwarded to redirect URI")
+                Log.d(SIGN_IN_WITH_APPLE_LOG_TAG, "Web view was forwarded to redirect URI")
 
                 val codeParameter = url.getQueryParameter("code")
                 val stateParameter = url.getQueryParameter("state")
 
                 when {
                     codeParameter == null -> {
-                        callback.onSignInFailure(IllegalArgumentException("code not returned"))
+                        callback.onSignInWithAppleFailure(IllegalArgumentException("code not returned"))
                     }
                     stateParameter != attempt.state -> {
-                        callback.onSignInFailure(IllegalArgumentException("state does not match"))
+                        callback.onSignInWithAppleFailure(IllegalArgumentException("state does not match"))
                     }
                     else -> {
-                        callback.onSignInSuccess(codeParameter)
+                        callback.onSignInWithAppleSuccess(codeParameter)
                     }
                 }
 
