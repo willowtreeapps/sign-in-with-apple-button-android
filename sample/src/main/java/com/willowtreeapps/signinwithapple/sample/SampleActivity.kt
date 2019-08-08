@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-import java.lang.ref.WeakReference
 
 class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
 
@@ -54,7 +53,7 @@ class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
     }
 
     override fun onSignInWithAppleFailure(error: Throwable) {
-        Log.d("SIGN_IN_WITH_APPLE", "Received error from Apple Sign In ${error.message}")
+        Log.d("SAMPLE_APP", "Received error from Apple Sign In ${error.message}")
     }
 
 }

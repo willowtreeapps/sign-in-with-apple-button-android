@@ -2,8 +2,6 @@ package com.willowtreeapps.signinwithapplebutton.view
 
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,12 +11,15 @@ import androidx.core.content.ContextCompat
 import com.willowtreeapps.signinwithapplebutton.R
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
-import java.util.*
 
 class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
     defStyleAttr: Int = 0, defStyleRes: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr, defStyleRes) {
+
+    internal companion object {
+        const val SIGN_IN_WITH_APPLE_LOG_TAG = "SIGN_IN_WITH_APPLE"
+    }
 
     private var service: SignInWithAppleService? = null
     private var client: SignInWithAppleClient? = null
@@ -87,13 +88,13 @@ class SignInWithAppleButton @JvmOverloads constructor(
     private fun onClick() {
         val service = service
         if (service == null) {
-            Log.w("SIGN_IN_WITH_APPLE", "Service is not configured")
+            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Service is not configured")
             return
         }
 
         val client = client
         if (client == null) {
-            Log.w("SIGN_IN_WITH_APPLE", "Client is not configured")
+            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Client is not configured")
             return
         }
 

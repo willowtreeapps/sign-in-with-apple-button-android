@@ -6,6 +6,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
+import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
 internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
@@ -24,7 +25,7 @@ internal class SignInWebViewClient(
                 true
             }
             url.toString().contains(attempt.redirectUri) -> {
-                Log.d("SIGN_IN_WITH_APPLE", "Web view was forwarded to redirect URI")
+                Log.d(SIGN_IN_WITH_APPLE_LOG_TAG, "Web view was forwarded to redirect URI")
 
                 val codeParameter = url.getQueryParameter("code")
                 val stateParameter = url.getQueryParameter("state")
