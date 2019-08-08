@@ -54,17 +54,7 @@ From this setup, you will need two OAuth arguments to use this library:
 
 ### Installation
 
-Include as a dependency using Maven:
-
-```xml
-<dependency>
-    <groupId>com.willowtreeapps</groupId>
-    <artifactId>signinwithapplebutton</artifactId>
-    <version>0.2</version>
-</dependency>
-```
-
-…or Gradle:
+Include as a dependency using Gradle:
 
 ```groovy
 repositories {
