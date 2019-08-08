@@ -3,6 +3,7 @@ package com.willowtreeapps.signinwithapplebutton
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
@@ -11,15 +12,15 @@ private const val fragmentTag: String = "SignInWithAppleButton"
 
 class SignInWithAppleService(
     private val fragmentManager: FragmentManager,
-    private val args: SignInWithAppleArgs,
+    private val config: SignInWithAppleConfig,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
 
     constructor(
         fragmentManager: FragmentManager,
-        args: SignInWithAppleArgs,
+        config: SignInWithAppleConfig,
         callback: SignInWithAppleCallback
-    ) : this(fragmentManager, args, callback.toFunction())
+    ) : this(fragmentManager, config, callback.toFunction())
 
     init {
         val fragmentIfCreated =
@@ -66,7 +67,7 @@ class SignInWithAppleService(
             https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
             */
             fun create(
-                args: SignInWithAppleArgs,
+                config: SignInWithAppleConfig,
                 state: String = UUID.randomUUID().toString()
             ): AuthenticationAttempt {
                 val authenticationUri = Uri
@@ -74,27 +75,49 @@ class SignInWithAppleService(
                     .buildUpon().apply {
                         appendQueryParameter("response_type", "code")
                         appendQueryParameter("v", "1.1.6")
-                        appendQueryParameter("client_id", args.clientId)
-                        appendQueryParameter("redirect_uri", args.redirectUri)
-                        appendQueryParameter("scope", args.scope)
+                        appendQueryParameter("client_id", config.clientId)
+                        appendQueryParameter("redirect_uri", config.redirectUri)
+                        appendQueryParameter("scope", config.scope)
                         appendQueryParameter("state", state)
                     }
                     .build()
                     .toString()
 
-                return AuthenticationAttempt(authenticationUri, args.redirectUri, state)
+                return AuthenticationAttempt(authenticationUri, config.redirectUri, state)
             }
         }
     }
 
     fun show() {
         // Only show one instance at a time.
-        val currentlyShowing = fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
+        val currentlyShowing =
+            fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
         if (currentlyShowing != null) {
             currentlyShowing.dismiss()
         }
-        val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(args))
+        val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(config))
         fragment.configure(callback)
         fragment.show(fragmentManager, fragmentTag)
     }
+
+    companion object {
+        @JvmStatic
+        fun View.setupSignInWithApple(
+            fragmentManager: FragmentManager,
+            config: SignInWithAppleConfig,
+            callback: SignInWithAppleCallback
+        ) {
+            val service = SignInWithAppleService(fragmentManager, config, callback)
+            setOnClickListener { service.show() }
+        }
+    }
+}
+
+fun View.setupSignInWithApple(
+    fragmentManager: FragmentManager,
+    config: SignInWithAppleConfig,
+    callback: (SignInWithAppleResult) -> Unit
+) {
+    val service = SignInWithAppleService(fragmentManager, config, callback)
+    setOnClickListener { service.show() }
 }

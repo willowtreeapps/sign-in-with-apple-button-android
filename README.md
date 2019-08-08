@@ -120,14 +120,14 @@ In your Activity, create the `SignInWithAppleService`, then configure the button
 override fun onCreate(savedInstanceState: Bundle?) {
     ...
 
-    val service = SignInWithAppleService(
+    val config = SignInWithAppleConfig(
         clientId = "com.your.client.id.here",
         redirectUri = "https://your-redirect-uri.com/callback",
         scope = "email"
     )
 
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
-    signInWithAppleButton.configure(supportFragmentManager, service) { result ->
+    signInWithAppleButton.setupSignInWithApple(supportFragmentManager, config) { result ->
         when (result) {
             is SignInWithAppleResult.Success -> {
                 // Handle success

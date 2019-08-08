@@ -1,6 +1,6 @@
 package com.willowtreeapps.signinwithapplebutton
 
-data class SignInWithAppleArgs(
+data class SignInWithAppleConfig(
     val clientId: String,
     val redirectUri: String,
     val scope: String
@@ -23,6 +23,6 @@ data class SignInWithAppleArgs(
             this.scope = scope
         }
 
-        fun build() = SignInWithAppleArgs(clientId, redirectUri, scope)
+        fun build() = SignInWithAppleConfig(clientId, redirectUri, scope)
     }
 }

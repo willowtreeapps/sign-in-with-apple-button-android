@@ -5,9 +5,9 @@ import android.util.Log
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleArgs
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleConfig
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
+import com.willowtreeapps.signinwithapplebutton.setupSignInWithApple
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
 
 class SampleActivity : AppCompatActivity() {
@@ -21,28 +21,28 @@ class SampleActivity : AppCompatActivity() {
         val signInWithAppleButtonWhiteOutline: SignInWithAppleButton = findViewById(R.id.sign_in_with_apple_button_white_outline)
 
         // Replace clientId and redirectUri with your own values.
-        val args = SignInWithAppleArgs(
+        val config = SignInWithAppleConfig(
             clientId = "com.your.client.id.here",
             redirectUri = "https://your-redirect-uri.com/callback",
             scope = "email name"
         )
 
-        val service = SignInWithAppleService(supportFragmentManager, args) { result ->
-            when (result) {
-                is SignInWithAppleResult.Success -> {
-                    Toast.makeText(this@SampleActivity, result.authorizationCode, LENGTH_SHORT).show()
-                }
-                is SignInWithAppleResult.Failure -> {
-                    Log.d("SAMPLE_APP", "Received error from Apple Sign In ${result.error.message}")
-                }
-                is SignInWithAppleResult.Cancel -> {
-                    Log.d("SAMPLE_APP", "User canceled Apple Sign In")
-                }
+        signInWithAppleButtonBlack.setupSignInWithApple(supportFragmentManager, config, ::callback)
+        signInWithAppleButtonWhite.setupSignInWithApple(supportFragmentManager, config, ::callback)
+        signInWithAppleButtonWhiteOutline.setupSignInWithApple(supportFragmentManager, config, ::callback)
+    }
+
+    private fun callback(result: SignInWithAppleResult) {
+        when (result) {
+            is SignInWithAppleResult.Success -> {
+                Toast.makeText(this, result.authorizationCode, LENGTH_SHORT).show()
+            }
+            is SignInWithAppleResult.Failure -> {
+                Log.d("SAMPLE_APP", "Received error from Apple Sign In ${result.error.message}")
+            }
+            is SignInWithAppleResult.Cancel -> {
+                Log.d("SAMPLE_APP", "User canceled Apple Sign In")
             }
         }
-
-        signInWithAppleButtonBlack.setOnClickListener { service.show() }
-        signInWithAppleButtonWhite.setOnClickListener { service.show() }
-        signInWithAppleButtonWhiteOutline.setOnClickListener { service.show() }
     }
 }
