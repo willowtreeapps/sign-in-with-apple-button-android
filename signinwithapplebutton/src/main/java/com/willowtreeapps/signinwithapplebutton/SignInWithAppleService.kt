@@ -49,8 +49,7 @@ class SignInWithAppleService(
     See the Sign In With Apple Javascript SDK for comparison:
     https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
     */
-    internal fun buildAuthenticationAttempt(): AuthenticationAttempt {
-        val state = UUID.randomUUID().toString()
+    internal fun buildAuthenticationAttempt(state: String = UUID.randomUUID().toString()): AuthenticationAttempt {
         val authenticationUri = Uri
             .parse("https://appleid.apple.com/auth/authorize")
             .buildUpon().apply {
