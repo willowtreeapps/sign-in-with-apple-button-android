@@ -1,6 +1,7 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,12 +10,12 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.webkit.WebView
 import androidx.fragment.app.DialogFragment
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
 @SuppressLint("SetJavaScriptEnabled")
-internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
+internal class SignInWebViewDialogFragment : DialogFragment() {
 
     companion object {
         private const val AUTHENTICATION_ATTEMPT_KEY = "authenticationAttempt"
@@ -30,12 +31,12 @@ internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCa
     }
 
     private var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt? = null
-    private var callback: SignInWithAppleCallback? = null
+    private var callback: ((SignInWithAppleResult) -> Unit)? = null
 
     private val webViewIfCreated: WebView?
         get() = view as? WebView
 
-    fun configure(callback: SignInWithAppleCallback) {
+    fun configure(callback: (SignInWithAppleResult) -> Unit) {
         this.callback = callback
     }
 
@@ -64,7 +65,7 @@ internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCa
         }
 
         webView.webViewClient = authenticationAttempt?.let {
-            SignInWebViewClient(it, this)
+            SignInWebViewClient(it, ::onCallback)
         }
 
         if (savedInstanceState != null) {
@@ -96,30 +97,20 @@ internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCa
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
     }
 
+    override fun onDismiss(dialog: DialogInterface?) {
+        super.onDismiss(dialog)
+        onCallback(SignInWithAppleResult.Cancel)
+    }
+
     // SignInWithAppleCallback
 
-    override fun onSignInWithAppleSuccess(authorizationCode: String) {
+    private fun onCallback(result: SignInWithAppleResult) {
         dialog?.dismiss()
-
         val callback = callback
         if (callback == null) {
             Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
             return
         }
-
-        callback.onSignInWithAppleSuccess(authorizationCode)
+        callback(result)
     }
-
-    override fun onSignInWithAppleFailure(error: Throwable) {
-        dialog?.dismiss()
-
-        val callback = callback
-        if (callback == null) {
-            Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
-            return
-        }
-
-        callback.onSignInWithAppleFailure(error)
-    }
-
 }
