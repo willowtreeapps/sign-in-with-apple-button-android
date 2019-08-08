@@ -50,7 +50,7 @@ class SampleActivity : AppCompatActivity(), SignInWithAppleClient {
     }
 
     override fun onSignInWithAppleSuccess(authorizationCode: String) {
-        Toast.makeText(this@SampleActivity, authorizationCode, LENGTH_SHORT).show()
+        Toast.makeText(this, authorizationCode, LENGTH_SHORT).show()
     }
 
     override fun onSignInWithAppleFailure(error: Throwable) {
