@@ -4,13 +4,13 @@ import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
 internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
-    private val callback: SignInWithAppleCallback
+    private val callback: (SignInWithAppleResult) -> Unit
 ) : WebViewClient() {
 
     override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -32,13 +32,13 @@ internal class SignInWebViewClient(
 
                 when {
                     codeParameter == null -> {
-                        callback.onSignInWithAppleFailure(IllegalArgumentException("code not returned"))
+                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code not returned")))
                     }
                     stateParameter != attempt.state -> {
-                        callback.onSignInWithAppleFailure(IllegalArgumentException("state does not match"))
+                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("state does not match")))
                     }
                     else -> {
-                        callback.onSignInWithAppleSuccess(codeParameter)
+                        callback(SignInWithAppleResult.Success(codeParameter))
                     }
                 }
 
