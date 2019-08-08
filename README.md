@@ -98,7 +98,7 @@ At runtime, configure the button with an instance of `SignInWithAppleService`. W
 
 > According to our understanding of OpenID Connect, the "openid" scope should be included. But at this time of writing, that causes the authentication page to fail to initialize. Beta idiosyncrasies like these are documented in [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md).
 
-Also supply an implementation of `SignInWithAppleClient`. With this object, you'll provide access to a FragmentManager used to present the login interface. You'll also receive callbacks for success and failure cases.
+Then configure the button with a `FragmentManager` to present the login interface, the service you created above, and a callback to receive the success/failure/cancel result.
 
 #### Example
 
@@ -127,7 +127,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
     )
 
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
-    signInWithAppleButton.configure(supportFragmentManager, service, client) { result ->
+    signInWithAppleButton.configure(supportFragmentManager, service) { result ->
         when (result) {
             is SignInWithAppleResult.Success -> {
                 // Handle success
@@ -150,7 +150,7 @@ If the user completes authentication, your callback will receive a `SignInWithAp
 
 If instead there is a failure, your callback will receive a `SignInWithAppleResult.Failure` with the error.
 
-If the user dismisses the authentication screen intentionally, oy will receive a `SignInWithAppleResult.Cancel`.
+If the user dismisses the authentication screen intentionally, you will receive a `SignInWithAppleResult.Cancel`.
 
 ## Sample application
 

@@ -122,7 +122,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         val callback = callback
         if (callback == null) {
-            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Client is not configured")
+            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
             return
         }
 
