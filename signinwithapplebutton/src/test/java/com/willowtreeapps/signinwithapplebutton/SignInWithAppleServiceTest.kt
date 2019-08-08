@@ -28,15 +28,20 @@ class SignInWithAppleServiceTest {
     }
 
     @Test
-    fun builds_authentication_attempt_based_on_service_args() {
-        val service = SignInWithAppleService(
-            clientId = "com.your.client.id.here",
-            redirectUri = "https://your-redirect-uri.com/callback",
-            scope = "email"
+    fun creates_authentication_attempt_based_on_service_args() {
+        val attempt = SignInWithAppleService.AuthenticationAttempt.create(
+            SignInWithAppleArgs(
+                clientId = "com.your.client.id.here",
+                redirectUri = "https://your-redirect-uri.com/callback",
+                scope = "email"
+            ),
+            state = "state"
         )
-        val attempt = service.buildAuthenticationAttempt(state = "state")
 
-        assertEquals("https://appleid.apple.com/auth/authorize?response_type=code&v=1.1.6&client_id=com.your.client.id.here&redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback&scope=email&state=state", attempt.authenticationUri)
+        assertEquals(
+            "https://appleid.apple.com/auth/authorize?response_type=code&v=1.1.6&client_id=com.your.client.id.here&redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback&scope=email&state=state",
+            attempt.authenticationUri
+        )
         assertEquals("https://your-redirect-uri.com/callback", attempt.redirectUri)
         assertEquals("state", attempt.state)
     }
