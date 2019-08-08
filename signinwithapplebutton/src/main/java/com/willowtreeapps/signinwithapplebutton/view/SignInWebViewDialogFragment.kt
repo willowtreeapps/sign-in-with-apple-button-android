@@ -14,11 +14,19 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
 @SuppressLint("SetJavaScriptEnabled")
-internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCallback {
+internal class SignInWebViewDialogFragment : DialogFragment(), SignInWithAppleCallback {
 
-    private companion object {
-        const val AUTHENTICATION_ATTEMPT_KEY = "authenticationAttempt"
-        const val WEB_VIEW_KEY = "webView"
+    companion object {
+        private const val AUTHENTICATION_ATTEMPT_KEY = "authenticationAttempt"
+        private const val WEB_VIEW_KEY = "webView"
+
+        fun newInstance(authenticationAttempt: SignInWithAppleService.AuthenticationAttempt): SignInWebViewDialogFragment {
+            val fragment = SignInWebViewDialogFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(AUTHENTICATION_ATTEMPT_KEY, authenticationAttempt)
+            }
+            return fragment
+        }
     }
 
     private var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt? = null
@@ -27,31 +35,21 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
     private val webViewIfCreated: WebView?
         get() = view as? WebView
 
-    constructor() : super() {
-        authenticationAttempt = null
-    }
-
-    constructor(authenticationAttempt: SignInWithAppleService.AuthenticationAttempt) {
-        this.authenticationAttempt = authenticationAttempt
-    }
-
-    fun configure(
-        callback: SignInWithAppleCallback
-    ) {
+    fun configure(callback: SignInWithAppleCallback) {
         this.callback = callback
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (authenticationAttempt == null) {
-            authenticationAttempt = savedInstanceState?.getParcelable(AUTHENTICATION_ATTEMPT_KEY)
-        }
-
+        authenticationAttempt = arguments!!.getParcelable(AUTHENTICATION_ATTEMPT_KEY)
         setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
         val webView = WebView(context).apply {
@@ -66,7 +64,7 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
         }
 
         webView.webViewClient = authenticationAttempt?.let {
-            SignInWebViewClient(it,this)
+            SignInWebViewClient(it, this)
         }
 
         if (savedInstanceState != null) {
@@ -84,9 +82,6 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putParcelable(AUTHENTICATION_ATTEMPT_KEY, authenticationAttempt)
-
         outState.putBundle(
             WEB_VIEW_KEY,
             Bundle().apply {

@@ -98,7 +98,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
             return
         }
 
-        val fragment = SignInWebViewDialogFragment(service.buildAuthenticationAttempt())
+        val fragment = SignInWebViewDialogFragment.newInstance(service.buildAuthenticationAttempt())
         fragment.configure(client)
 
         fragment.show(client.getFragmentManagerForSignInWithApple(), fragmentTag)
