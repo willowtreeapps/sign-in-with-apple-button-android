@@ -30,7 +30,7 @@ internal class SignInWebViewDialogFragment : DialogFragment() {
         }
     }
 
-    private var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt? = null
+    private lateinit var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt
     private var callback: ((SignInWithAppleResult) -> Unit)? = null
 
     private val webViewIfCreated: WebView?
@@ -60,22 +60,14 @@ internal class SignInWebViewDialogFragment : DialogFragment() {
             }
         }
 
-        if (authenticationAttempt == null) {
-            Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Authentication attempt is not configured")
-        }
-
-        webView.webViewClient = authenticationAttempt?.let {
-            SignInWebViewClient(it, ::onCallback)
-        }
+        webView.webViewClient = SignInWebViewClient(authenticationAttempt, ::onCallback)
 
         if (savedInstanceState != null) {
             savedInstanceState.getBundle(WEB_VIEW_KEY)?.run {
                 webView.restoreState(this)
             }
         } else {
-            authenticationAttempt?.run {
-                webView.loadUrl(authenticationUri)
-            }
+            webView.loadUrl(authenticationAttempt.authenticationUri)
         }
 
         return webView
