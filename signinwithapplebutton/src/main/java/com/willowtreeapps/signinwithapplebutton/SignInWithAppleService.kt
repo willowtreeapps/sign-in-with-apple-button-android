@@ -4,29 +4,33 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import android.view.View
+import androidx.annotation.IdRes
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
 
-private const val fragmentTag: String = "SignInWithAppleButton"
-
 class SignInWithAppleService(
+    @IdRes private val id: Int,
     private val fragmentManager: FragmentManager,
     private val config: SignInWithAppleConfig,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
 
     constructor(
+        @IdRes id: Int,
         fragmentManager: FragmentManager,
         config: SignInWithAppleConfig,
         callback: SignInWithAppleCallback
-    ) : this(fragmentManager, config, callback.toFunction())
+    ) : this(id, fragmentManager, config, callback.toFunction())
 
     init {
         val fragmentIfCreated =
             fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
         fragmentIfCreated?.configure(callback)
     }
+
+    private val fragmentTag: String
+        get() = "SignInWithAppleButton-$id-SignInWebViewDialogFragment"
 
     internal data class AuthenticationAttempt(
         val authenticationUri: String,
@@ -89,12 +93,6 @@ class SignInWithAppleService(
     }
 
     fun show() {
-        // Only show one instance at a time.
-        val currentlyShowing =
-            fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
-        if (currentlyShowing != null) {
-            currentlyShowing.dismiss()
-        }
         val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(config))
         fragment.configure(callback)
         fragment.show(fragmentManager, fragmentTag)
@@ -107,7 +105,7 @@ class SignInWithAppleService(
             config: SignInWithAppleConfig,
             callback: SignInWithAppleCallback
         ) {
-            val service = SignInWithAppleService(fragmentManager, config, callback)
+            val service = SignInWithAppleService(id, fragmentManager, config, callback)
             setOnClickListener { service.show() }
         }
     }
@@ -118,6 +116,6 @@ fun View.setupSignInWithApple(
     config: SignInWithAppleConfig,
     callback: (SignInWithAppleResult) -> Unit
 ) {
-    val service = SignInWithAppleService(fragmentManager, config, callback)
+    val service = SignInWithAppleService(id, fragmentManager, config, callback)
     setOnClickListener { service.show() }
 }
