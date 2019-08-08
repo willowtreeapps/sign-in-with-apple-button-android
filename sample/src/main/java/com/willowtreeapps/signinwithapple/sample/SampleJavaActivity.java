@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,12 +39,12 @@ public class SampleJavaActivity extends AppCompatActivity {
 
     private final SignInWithAppleCallback callback = new SignInWithAppleCallback() {
         @Override
-        public void onSignInWithAppleSuccess(String authorizationCode) {
+        public void onSignInWithAppleSuccess(@NonNull String authorizationCode) {
             Toast.makeText(SampleJavaActivity.this, authorizationCode, LENGTH_SHORT).show();
         }
 
         @Override
-        public void onSignInWithAppleFailure(Throwable error) {
+        public void onSignInWithAppleFailure(@NonNull Throwable error) {
             Log.d("SAMPLE_APP", "Received error from Apple Sign In " + error.getMessage());
         }
 
