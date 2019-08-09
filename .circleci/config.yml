@@ -24,7 +24,7 @@ jobs:
           command: ./gradlew clean assemble
       - run:
           name: Check
-          command: ./gradlew lintRelease
+          command: ./gradlew test lintRelease
       - store_artifacts:
           path: signinwithapplebutton/build/outputs/
           destination: core

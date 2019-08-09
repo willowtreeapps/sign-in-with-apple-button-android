@@ -2,7 +2,7 @@ apply plugin: 'signing'
 apply plugin: 'digital.wup.android-maven-publish'
 
 group = 'com.willowtreeapps'
-version = '0.1'
+version = '0.2'
 
 def siteUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android'
 def gitUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android.git'
