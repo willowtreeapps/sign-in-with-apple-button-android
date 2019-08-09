@@ -90,7 +90,7 @@ Configure the button's appearance properties in layout XML:
 
 > These options are based on the style options from Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/overview/).
 
-At runtime, create an instance of `SignInWithAppleService`, supplying these values:
+At runtime, create an instance of `SignInWithAppleConfiguration`, supplying these values:
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
@@ -120,14 +120,14 @@ In your Activity, create the `SignInWithAppleService`, then configure the button
 override fun onCreate(savedInstanceState: Bundle?) {
     ...
 
-    val config = SignInWithAppleConfig(
+    val configuration = SignInWithAppleConfiguration(
         clientId = "com.your.client.id.here",
         redirectUri = "https://your-redirect-uri.com/callback",
         scope = "email"
     )
 
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
-    signInWithAppleButton.setupSignInWithApple(supportFragmentManager, config) { result ->
+    signInWithAppleButton.setUpSignInWithAppleOnClick(supportFragmentManager, configuration) { result ->
         when (result) {
             is SignInWithAppleResult.Success -> {
                 // Handle success

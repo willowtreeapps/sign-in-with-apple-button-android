@@ -30,7 +30,7 @@ class SignInWithAppleServiceTest {
     @Test
     fun creates_authentication_attempt_based_on_service_args() {
         val attempt = SignInWithAppleService.AuthenticationAttempt.create(
-            SignInWithAppleConfig(
+            SignInWithAppleConfiguration(
                 clientId = "com.your.client.id.here",
                 redirectUri = "https://your-redirect-uri.com/callback",
                 scope = "email"

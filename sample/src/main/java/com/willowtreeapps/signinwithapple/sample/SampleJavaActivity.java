@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleConfig;
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleConfiguration;
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback;
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService;
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton;
@@ -27,7 +27,7 @@ public class SampleJavaActivity extends AppCompatActivity {
         SignInWithAppleButton signInWithAppleButtonWhiteOutline = findViewById(R.id.sign_in_with_apple_button_white_outline);
 
         // Replace clientId and redirectUri with your own values.
-        SignInWithAppleConfig args = new SignInWithAppleConfig.Builder()
+        SignInWithAppleConfiguration configuration = new SignInWithAppleConfiguration.Builder()
                 .clientId("com.your.client.id.here")
                 .redirectUri("https://your-redirect-uri.com/callback")
                 .scope("email name")
@@ -50,8 +50,8 @@ public class SampleJavaActivity extends AppCompatActivity {
             }
         };
 
-        SignInWithAppleService.setupSignInWithApple(signInWithAppleButtonBlack, getSupportFragmentManager(), args, callback);
-        SignInWithAppleService.setupSignInWithApple(signInWithAppleButtonWhite, getSupportFragmentManager(), args, callback);
-        SignInWithAppleService.setupSignInWithApple(signInWithAppleButtonWhiteOutline, getSupportFragmentManager(), args, callback);
+        signInWithAppleButtonBlack.setUpSignInWithAppleOnClick(getSupportFragmentManager(), configuration, callback);
+        signInWithAppleButtonWhite.setUpSignInWithAppleOnClick(getSupportFragmentManager(), configuration, callback);
+        signInWithAppleButtonWhiteOutline.setUpSignInWithAppleOnClick(getSupportFragmentManager(), configuration, callback);
     }
 }

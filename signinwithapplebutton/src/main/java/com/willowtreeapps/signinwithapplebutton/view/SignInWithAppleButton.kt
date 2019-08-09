@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.willowtreeapps.signinwithapplebutton.R
+import androidx.core.content.res.TypedArrayUtils
+import androidx.fragment.app.FragmentManager
+import com.willowtreeapps.signinwithapplebutton.*
 
 class SignInWithAppleButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null,
@@ -67,5 +69,23 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
             textView.setCompoundDrawablesRelative(icon, null, null, null)
         }
+    }
+
+    fun setUpSignInWithAppleOnClick(
+        fragmentManager: FragmentManager,
+        configuration: SignInWithAppleConfiguration,
+        callback: (SignInWithAppleResult) -> Unit
+    ) {
+        val fragmentTag = "SignInWithAppleButton-$id-SignInWebViewDialogFragment"
+        val service = SignInWithAppleService(fragmentTag, fragmentManager, configuration, callback)
+        setOnClickListener { service.show() }
+    }
+
+    fun setUpSignInWithAppleOnClick(
+        fragmentManager: FragmentManager,
+        configuration: SignInWithAppleConfiguration,
+        callback: SignInWithAppleCallback
+    ) {
+        setUpSignInWithAppleOnClick(fragmentManager, configuration, callback.toFunction())
     }
 }

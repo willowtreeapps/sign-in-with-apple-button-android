@@ -3,34 +3,30 @@ package com.willowtreeapps.signinwithapplebutton
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import android.view.View
-import androidx.annotation.IdRes
+import android.util.Pair
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
 
 class SignInWithAppleService(
-    @IdRes private val id: Int,
+    private val fragmentTag: String,
     private val fragmentManager: FragmentManager,
-    private val config: SignInWithAppleConfig,
+    private val configuration: SignInWithAppleConfiguration,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
 
     constructor(
-        @IdRes id: Int,
+        fragmentTag: String,
         fragmentManager: FragmentManager,
-        config: SignInWithAppleConfig,
+        configuration: SignInWithAppleConfiguration,
         callback: SignInWithAppleCallback
-    ) : this(id, fragmentManager, config, callback.toFunction())
+    ) : this(fragmentTag, fragmentManager, configuration, callback.toFunction())
 
     init {
-        val fragmentIfCreated =
+        val fragmentIfShown =
             fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
-        fragmentIfCreated?.configure(callback)
+        fragmentIfShown?.configure(callback)
     }
-
-    private val fragmentTag: String
-        get() = "SignInWithAppleButton-$id-SignInWebViewDialogFragment"
 
     internal data class AuthenticationAttempt(
         val authenticationUri: String,
@@ -71,7 +67,7 @@ class SignInWithAppleService(
             https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
             */
             fun create(
-                config: SignInWithAppleConfig,
+                configuration: SignInWithAppleConfiguration,
                 state: String = UUID.randomUUID().toString()
             ): AuthenticationAttempt {
                 val authenticationUri = Uri
@@ -79,43 +75,22 @@ class SignInWithAppleService(
                     .buildUpon().apply {
                         appendQueryParameter("response_type", "code")
                         appendQueryParameter("v", "1.1.6")
-                        appendQueryParameter("client_id", config.clientId)
-                        appendQueryParameter("redirect_uri", config.redirectUri)
-                        appendQueryParameter("scope", config.scope)
+                        appendQueryParameter("client_id", configuration.clientId)
+                        appendQueryParameter("redirect_uri", configuration.redirectUri)
+                        appendQueryParameter("scope", configuration.scope)
                         appendQueryParameter("state", state)
                     }
                     .build()
                     .toString()
 
-                return AuthenticationAttempt(authenticationUri, config.redirectUri, state)
+                return AuthenticationAttempt(authenticationUri, configuration.redirectUri, state)
             }
         }
     }
 
     fun show() {
-        val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(config))
+        val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(configuration))
         fragment.configure(callback)
         fragment.show(fragmentManager, fragmentTag)
     }
-
-    companion object {
-        @JvmStatic
-        fun View.setupSignInWithApple(
-            fragmentManager: FragmentManager,
-            config: SignInWithAppleConfig,
-            callback: SignInWithAppleCallback
-        ) {
-            val service = SignInWithAppleService(id, fragmentManager, config, callback)
-            setOnClickListener { service.show() }
-        }
-    }
-}
-
-fun View.setupSignInWithApple(
-    fragmentManager: FragmentManager,
-    config: SignInWithAppleConfig,
-    callback: (SignInWithAppleResult) -> Unit
-) {
-    val service = SignInWithAppleService(id, fragmentManager, config, callback)
-    setOnClickListener { service.show() }
 }
