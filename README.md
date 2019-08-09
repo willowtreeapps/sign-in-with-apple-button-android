@@ -84,7 +84,7 @@ Add a `SignInWithAppleButton` to your login screen's layout.
 
 Configure the button's appearance properties in layout XML:
 
-- `sign_in_with_apple_button_colorStyle`: Specify an enum value, `"black"` (default), `"white"`, or `"whiteOutline"`.
+- `style`: Specify a style, `"@style/SignInWithAppleButton.Black"` (default), `"@style/SignInWithAppleButton.White"`, or `"@style/SignInWithAppleButton.WhiteOutline"`.
 - `sign_in_with_apple_button_textType`: Specify an enum value, `"signInWithApple"` (default) or `"continueWithApple"`.
 - `sign_in_with_apple_button_cornerRadius`: Specify a dimension, like `"4dp"` (default), `"0dp"`, `"8px"`, etc.
 
@@ -109,7 +109,7 @@ Set up a `SignInWithAppleButton` via XML:
     android:id="@+id/sign_in_with_apple_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:sign_in_with_apple_button_colorStyle="black"
+    style="@style/SignInWithAppleButton.Black"
     app:sign_in_with_apple_button_textType="signInWithApple"
     app:sign_in_with_apple_button_cornerRadius="4dp" />
 ```

@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.*
 
@@ -27,20 +26,20 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
     init {
         val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
+            context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, R.style.SignInWithAppleButton)
 
-        val colorStyleIndex =
-            attributes.getInt(
-                R.styleable.SignInWithAppleButton_sign_in_with_apple_button_colorStyle,
-                SignInColorStyle.BLACK.ordinal
-            )
-        val colorStyle = SignInColorStyle.values()[colorStyleIndex]
+        // Style
+        val background = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_background)
+        val icon = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_drawableLeft)
+        val textColor = attributes.getColorStateList(R.styleable.SignInWithAppleButton_android_textColor)
 
+        // Text type
         val text = attributes.getInt(
             R.styleable.SignInWithAppleButton_sign_in_with_apple_button_textType,
             SignInTextType.SIGN_IN.ordinal
         )
 
+        // Corner radius
         val cornerRadius = attributes.getDimension(
             R.styleable.SignInWithAppleButton_sign_in_with_apple_button_cornerRadius,
             resources.getDimension(R.dimen.sign_in_with_apple_button_cornerRadius_default)
@@ -48,17 +47,13 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         attributes.recycle()
 
-        background = ContextCompat.getDrawable(context, colorStyle.background)?.mutate()
-        (background as GradientDrawable).cornerRadius = cornerRadius
-
-        val iconVerticalOffset =
-            resources.getDimensionPixelOffset(R.dimen.sign_in_with_apple_button_textView_icon_verticalOffset)
-        textView.text = resources.getString(SignInTextType.values()[text].text)
-        textView.setTextColor(ContextCompat.getColorStateList(context, colorStyle.textColor))
-
-        val icon = ContextCompat.getDrawable(context, colorStyle.icon)?.mutate()
+        this.background = background?.mutate()
+        (background as? GradientDrawable)?.cornerRadius = cornerRadius
 
         if (icon != null) {
+            val iconVerticalOffset =
+                resources.getDimensionPixelOffset(R.dimen.sign_in_with_apple_button_textView_icon_verticalOffset)
+
             icon.setBounds(
                 0,
                 iconVerticalOffset,
@@ -68,6 +63,9 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
             textView.setCompoundDrawablesRelative(icon, null, null, null)
         }
+
+        textView.setTextColor(textColor)
+        textView.text = resources.getString(SignInTextType.values()[text].text)
     }
 
     fun setUpSignInWithAppleOnClick(
