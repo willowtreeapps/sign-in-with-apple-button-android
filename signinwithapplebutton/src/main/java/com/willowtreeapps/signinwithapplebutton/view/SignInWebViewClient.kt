@@ -1,9 +1,12 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
+import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.RequiresApi
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
@@ -13,9 +16,17 @@ internal class SignInWebViewClient(
     private val callback: (SignInWithAppleResult) -> Unit
 ) : WebViewClient() {
 
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        val url = request?.url
+    // for API levels < 24
+    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+        return isUrlOverridden(view, Uri.parse(url))
+    }
 
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
+        return isUrlOverridden(view, request?.url)
+    }
+
+    private fun isUrlOverridden(view: WebView?, url: Uri?): Boolean {
         return when {
             url == null -> {
                 false

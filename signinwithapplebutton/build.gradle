@@ -9,7 +9,7 @@ android {
     resourcePrefix "sign_in_with_apple_button_"
 
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 17
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
