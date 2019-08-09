@@ -12,7 +12,7 @@
             android:id="@+id/sign_in_with_apple_button_black"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:sign_in_with_apple_button_colorStyle="black"
+            style="@style/SignInWithAppleButton.Black"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
             android:id="@+id/sign_in_with_apple_button_white"
             android:layout_height="30dp"
-            app:sign_in_with_apple_button_colorStyle="white"
+            style="@style/SignInWithAppleButton.White"
             app:sign_in_with_apple_button_textType="signInWithApple"
             app:sign_in_with_apple_button_cornerRadius="0dp"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
             android:id="@+id/sign_in_with_apple_button_white_outline"
             android:layout_width="0dp"
-            app:sign_in_with_apple_button_colorStyle="whiteOutline"
+            style="@style/SignInWithAppleButton.WhiteOutline"
             app:sign_in_with_apple_button_textType="continueWithApple"
             app:sign_in_with_apple_button_cornerRadius="16dp"
             app:layout_constraintStart_toStartOf="parent"
