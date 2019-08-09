@@ -3,24 +3,23 @@ package com.willowtreeapps.signinwithapplebutton
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Pair
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
 
 class SignInWithAppleService(
-    private val fragmentTag: String,
     private val fragmentManager: FragmentManager,
+    private val fragmentTag: String,
     private val configuration: SignInWithAppleConfiguration,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
 
     constructor(
-        fragmentTag: String,
         fragmentManager: FragmentManager,
+        fragmentTag: String,
         configuration: SignInWithAppleConfiguration,
         callback: SignInWithAppleCallback
-    ) : this(fragmentTag, fragmentManager, configuration, callback.toFunction())
+    ) : this(fragmentManager, fragmentTag, configuration, callback.toFunction())
 
     init {
         val fragmentIfShown =

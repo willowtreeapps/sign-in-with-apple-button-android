@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.TypedArrayUtils
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.*
 
@@ -77,7 +76,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
         callback: (SignInWithAppleResult) -> Unit
     ) {
         val fragmentTag = "SignInWithAppleButton-$id-SignInWebViewDialogFragment"
-        val service = SignInWithAppleService(fragmentTag, fragmentManager, configuration, callback)
+        val service = SignInWithAppleService(fragmentManager, fragmentTag, configuration, callback)
         setOnClickListener { service.show() }
     }
 
