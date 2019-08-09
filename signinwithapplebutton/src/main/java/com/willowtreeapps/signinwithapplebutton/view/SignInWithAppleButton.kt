@@ -1,7 +1,9 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
@@ -47,8 +49,9 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         attributes.recycle()
 
-        this.background = background?.mutate()
-        (background as? GradientDrawable)?.cornerRadius = cornerRadius
+        this.background = background?.mutate()?.also {
+            updateCornerRadius(it, cornerRadius)
+        }
 
         if (icon != null) {
             val iconVerticalOffset =
@@ -84,5 +87,15 @@ class SignInWithAppleButton @JvmOverloads constructor(
         callback: SignInWithAppleCallback
     ) {
         setUpSignInWithAppleOnClick(fragmentManager, configuration, callback.toFunction())
+    }
+
+    private fun updateCornerRadius(drawable: Drawable, cornerRadius: Float) {
+        if (drawable is GradientDrawable) {
+            drawable.cornerRadius = cornerRadius
+        } else if (drawable is LayerDrawable) {
+            drawable.findDrawableByLayerId(android.R.id.background)?.let {
+                updateCornerRadius(it, cornerRadius)
+            }
+        }
     }
 }
