@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.R
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleClient
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 
 class SignInWithAppleButton @JvmOverloads constructor(
@@ -21,8 +23,9 @@ class SignInWithAppleButton @JvmOverloads constructor(
         const val SIGN_IN_WITH_APPLE_LOG_TAG = "SIGN_IN_WITH_APPLE"
     }
 
+    private var fragmentManager: FragmentManager? = null
     private var service: SignInWithAppleService? = null
-    private var client: SignInWithAppleClient? = null
+    private var callback: ((SignInWithAppleResult) -> Unit)? = null
 
     init {
         LayoutInflater.from(context).inflate(R.layout.sign_in_with_apple_button, this, true)
@@ -31,7 +34,8 @@ class SignInWithAppleButton @JvmOverloads constructor(
     private val textView: TextView = findViewById(R.id.textView)
 
     init {
-        val attributes = context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
+        val attributes =
+            context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, 0)
 
         val colorStyleIndex =
             attributes.getInt(
@@ -63,7 +67,12 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val icon = ContextCompat.getDrawable(context, colorStyle.icon)?.mutate()
 
         if (icon != null) {
-            icon.setBounds(0, iconVerticalOffset, icon.intrinsicWidth, icon.intrinsicHeight + iconVerticalOffset)
+            icon.setBounds(
+                0,
+                iconVerticalOffset,
+                icon.intrinsicWidth,
+                icon.intrinsicHeight + iconVerticalOffset
+            )
 
             textView.setCompoundDrawablesRelative(icon, null, null, null)
         }
@@ -73,13 +82,32 @@ class SignInWithAppleButton @JvmOverloads constructor(
         }
     }
 
-    fun configure(service: SignInWithAppleService, client: SignInWithAppleClient) {
-        this.service = service
-        this.client = client
+    fun configure(
+        fragmentManager: FragmentManager,
+        service: SignInWithAppleService,
+        callback: SignInWithAppleCallback
+    ) {
+        configure(fragmentManager, service) { result ->
+            when (result) {
+                is SignInWithAppleResult.Success -> callback.onSignInWithAppleSuccess(result.authorizationCode)
+                is SignInWithAppleResult.Failure -> callback.onSignInWithAppleFailure(result.error)
+                is SignInWithAppleResult.Cancel -> callback.onSignInWithAppleCancel()
+            }
+        }
+    }
 
-        val fragmentManager = client.getFragmentManagerForSignInWithApple()
-        val fragmentIfCreated = fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
-        fragmentIfCreated?.configure(client)
+    fun configure(
+        fragmentManager: FragmentManager,
+        service: SignInWithAppleService,
+        callback: (SignInWithAppleResult) -> Unit
+    ) {
+        this.fragmentManager = fragmentManager
+        this.service = service
+        this.callback = callback
+
+        val fragmentIfCreated =
+            fragmentManager.findFragmentByTag(fragmentTag) as? SignInWebViewDialogFragment
+        fragmentIfCreated?.configure(callback)
     }
 
     private val fragmentTag: String
@@ -92,16 +120,16 @@ class SignInWithAppleButton @JvmOverloads constructor(
             return
         }
 
-        val client = client
-        if (client == null) {
-            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Client is not configured")
+        val callback = callback
+        if (callback == null) {
+            Log.w(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
             return
         }
 
-        val fragment = SignInWebViewDialogFragment(service.buildAuthenticationAttempt())
-        fragment.configure(client)
+        val fragment = SignInWebViewDialogFragment.newInstance(service.buildAuthenticationAttempt())
+        fragment.configure(callback)
 
-        fragment.show(client.getFragmentManagerForSignInWithApple(), fragmentTag)
+        fragment.show(fragmentManager, fragmentTag)
     }
 
 }

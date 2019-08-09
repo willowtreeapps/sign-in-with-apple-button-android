@@ -1,6 +1,7 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,49 +10,47 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.webkit.WebView
 import androidx.fragment.app.DialogFragment
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback
+import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
 
 @SuppressLint("SetJavaScriptEnabled")
-internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCallback {
+internal class SignInWebViewDialogFragment : DialogFragment() {
 
-    private companion object {
-        const val AUTHENTICATION_ATTEMPT_KEY = "authenticationAttempt"
-        const val WEB_VIEW_KEY = "webView"
+    companion object {
+        private const val AUTHENTICATION_ATTEMPT_KEY = "authenticationAttempt"
+        private const val WEB_VIEW_KEY = "webView"
+
+        fun newInstance(authenticationAttempt: SignInWithAppleService.AuthenticationAttempt): SignInWebViewDialogFragment {
+            val fragment = SignInWebViewDialogFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(AUTHENTICATION_ATTEMPT_KEY, authenticationAttempt)
+            }
+            return fragment
+        }
     }
 
-    private var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt? = null
-    private var callback: SignInWithAppleCallback? = null
+    private lateinit var authenticationAttempt: SignInWithAppleService.AuthenticationAttempt
+    private var callback: ((SignInWithAppleResult) -> Unit)? = null
 
     private val webViewIfCreated: WebView?
         get() = view as? WebView
 
-    constructor() : super() {
-        authenticationAttempt = null
-    }
-
-    constructor(authenticationAttempt: SignInWithAppleService.AuthenticationAttempt) {
-        this.authenticationAttempt = authenticationAttempt
-    }
-
-    fun configure(
-        callback: SignInWithAppleCallback
-    ) {
+    fun configure(callback: (SignInWithAppleResult) -> Unit) {
         this.callback = callback
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (authenticationAttempt == null) {
-            authenticationAttempt = savedInstanceState?.getParcelable(AUTHENTICATION_ATTEMPT_KEY)
-        }
-
+        authenticationAttempt = arguments!!.getParcelable(AUTHENTICATION_ATTEMPT_KEY)
         setStyle(STYLE_NORMAL, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
         val webView = WebView(context).apply {
@@ -61,22 +60,14 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
             }
         }
 
-        if (authenticationAttempt == null) {
-            Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Authentication attempt is not configured")
-        }
-
-        webView.webViewClient = authenticationAttempt?.let {
-            SignInWebViewClient(it,this)
-        }
+        webView.webViewClient = SignInWebViewClient(authenticationAttempt, ::onCallback)
 
         if (savedInstanceState != null) {
             savedInstanceState.getBundle(WEB_VIEW_KEY)?.run {
                 webView.restoreState(this)
             }
         } else {
-            authenticationAttempt?.run {
-                webView.loadUrl(authenticationUri)
-            }
+            webView.loadUrl(authenticationAttempt.authenticationUri)
         }
 
         return webView
@@ -84,9 +75,6 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
-        outState.putParcelable(AUTHENTICATION_ATTEMPT_KEY, authenticationAttempt)
-
         outState.putBundle(
             WEB_VIEW_KEY,
             Bundle().apply {
@@ -101,30 +89,20 @@ internal class SignInWebViewDialogFragment : DialogFragment, SignInWithAppleCall
         dialog?.window?.setLayout(MATCH_PARENT, MATCH_PARENT)
     }
 
+    override fun onCancel(dialog: DialogInterface?) {
+        super.onCancel(dialog)
+        onCallback(SignInWithAppleResult.Cancel)
+    }
+
     // SignInWithAppleCallback
 
-    override fun onSignInWithAppleSuccess(authorizationCode: String) {
+    private fun onCallback(result: SignInWithAppleResult) {
         dialog?.dismiss()
-
         val callback = callback
         if (callback == null) {
             Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
             return
         }
-
-        callback.onSignInWithAppleSuccess(authorizationCode)
+        callback(result)
     }
-
-    override fun onSignInWithAppleFailure(error: Throwable) {
-        dialog?.dismiss()
-
-        val callback = callback
-        if (callback == null) {
-            Log.e(SIGN_IN_WITH_APPLE_LOG_TAG, "Callback is not configured")
-            return
-        }
-
-        callback.onSignInWithAppleFailure(error)
-    }
-
 }

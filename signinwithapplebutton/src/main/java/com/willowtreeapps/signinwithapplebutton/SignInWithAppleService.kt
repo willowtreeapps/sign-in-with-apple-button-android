@@ -3,6 +3,7 @@ package com.willowtreeapps.signinwithapplebutton
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.fragment.app.FragmentManager
 import java.util.*
 
 class SignInWithAppleService(
@@ -20,7 +21,7 @@ class SignInWithAppleService(
             parcel.readString() ?: "invalid",
             parcel.readString() ?: "invalid",
             parcel.readString() ?: "invalid"
-        ) {}
+        )
 
         override fun writeToParcel(parcel: Parcel, flags: Int) {
             parcel.writeString(authenticationUri)
@@ -49,8 +50,7 @@ class SignInWithAppleService(
     See the Sign In With Apple Javascript SDK for comparison:
     https://developer.apple.com/documentation/signinwithapplejs/configuring_your_webpage_for_sign_in_with_apple
     */
-    internal fun buildAuthenticationAttempt(): AuthenticationAttempt {
-        val state = UUID.randomUUID().toString()
+    internal fun buildAuthenticationAttempt(state: String = UUID.randomUUID().toString()): AuthenticationAttempt {
         val authenticationUri = Uri
             .parse("https://appleid.apple.com/auth/authorize")
             .buildUpon().apply {
@@ -66,5 +66,4 @@ class SignInWithAppleService(
 
         return AuthenticationAttempt(authenticationUri, redirectUri, state)
     }
-
 }
