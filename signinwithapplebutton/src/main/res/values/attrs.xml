@@ -2,9 +2,9 @@
 <resources>
     <declare-styleable name="SignInWithAppleButton">
         <!-- Style: Use the "style" attribute to set these -->
-        <attr name="android:background"/>
-        <attr name="android:drawableLeft"/>
-        <attr name="android:textColor"/>
+        <attr name="android:background" />
+        <attr name="android:drawableLeft" />
+        <attr name="android:textColor" />
 
         <!-- Text type -->
         <attr name="sign_in_with_apple_button_textType" format="enum">

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="sign_in_with_apple_button_text_white" type="color">@color/sign_in_with_apple_button_white</item>
+</resources>

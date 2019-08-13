@@ -1,11 +1,18 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
+import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.RequiresApi
+import androidx.core.graphics.drawable.DrawableCompat
+import androidx.core.widget.TextViewCompat
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.*
 
@@ -23,15 +30,23 @@ class SignInWithAppleButton @JvmOverloads constructor(
     }
 
     private val textView: TextView = findViewById(R.id.textView)
+    private val icon: Drawable?
 
     init {
         val attributes =
-            context.theme.obtainStyledAttributes(attrs, R.styleable.SignInWithAppleButton, 0, R.style.SignInWithAppleButton)
+            context.theme.obtainStyledAttributes(
+                attrs,
+                R.styleable.SignInWithAppleButton,
+                0,
+                R.style.SignInWithAppleButton
+            )
 
         // Style
-        val background = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_background)
+        val background =
+            attributes.getDrawable(R.styleable.SignInWithAppleButton_android_background)
         val icon = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_drawableLeft)
-        val textColor = attributes.getColorStateList(R.styleable.SignInWithAppleButton_android_textColor)
+        val textColor =
+            attributes.getColorStateList(R.styleable.SignInWithAppleButton_android_textColor)
 
         // Text type
         val text = attributes.getInt(
@@ -51,20 +66,27 @@ class SignInWithAppleButton @JvmOverloads constructor(
         (background as? GradientDrawable)?.cornerRadius = cornerRadius
 
         if (icon != null) {
+            this.icon = DrawableCompat.wrap(icon)
+
             val iconVerticalOffset =
                 resources.getDimensionPixelOffset(R.dimen.sign_in_with_apple_button_textView_icon_verticalOffset)
 
-            icon.setBounds(
+            this.icon.setBounds(
                 0,
                 iconVerticalOffset,
-                icon.intrinsicWidth,
-                icon.intrinsicHeight + iconVerticalOffset
+                this.icon.intrinsicWidth,
+                this.icon.intrinsicHeight + iconVerticalOffset
             )
 
-            textView.setCompoundDrawablesRelative(icon, null, null, null)
+            textView.setCompoundDrawablesRelative(this.icon, null, null, null)
+        } else {
+            this.icon = null
         }
 
-        textView.setTextColor(textColor)
+        if (textColor != null) {
+            setButtonTextColor(textColor)
+        }
+
         textView.text = resources.getString(SignInTextType.values()[text].text)
     }
 
@@ -84,5 +106,28 @@ class SignInWithAppleButton @JvmOverloads constructor(
         callback: SignInWithAppleCallback
     ) {
         setUpSignInWithAppleOnClick(fragmentManager, configuration, callback.toFunction())
+    }
+
+    fun setButtonTextColor(@ColorInt color: Int) {
+        textView.setTextColor(color)
+        if (Build.VERSION.SDK_INT >= 23) {
+            textView.compoundDrawableTintList = ColorStateList.valueOf(color)
+        } else if (icon != null) {
+            DrawableCompat.setTint(icon.mutate(), color)
+        }
+    }
+
+    fun setButtonTextColor(color: ColorStateList) {
+        textView.setTextColor(color)
+        if (Build.VERSION.SDK_INT >= 23) {
+            textView.compoundDrawableTintList = color
+        } else if (icon != null) {
+            DrawableCompat.setTintList(icon.mutate(), color)
+        }
+    }
+
+    @RequiresApi(21)
+    fun setButtonBackgroundColor(@ColorInt color: Int) {
+        (background as? GradientDrawable)?.color = ColorStateList.valueOf(color)
     }
 }

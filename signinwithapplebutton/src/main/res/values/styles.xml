@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <style name="SignInWithAppleButton">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_black</item>
-        <item name="android:textColor">@color/sign_in_with_apple_button_text_white</item>
-        <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon_white</item>
+        <item name="android:textColor">@color/sign_in_with_apple_button_text_white_selector</item>
+        <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon</item>
+        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_black_anim</item>
     </style>
 
     <style name="SignInWithAppleButton.Black">
@@ -13,13 +14,13 @@
     <style name="SignInWithAppleButton.White">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_white</item>
         <item name="android:textColor">@color/sign_in_with_apple_button_text_black</item>
-        <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon_black</item>
+        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_white_anim</item>
     </style>
 
     <style name="SignInWithAppleButton.WhiteOutline">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_white_outline</item>
         <item name="android:textColor">@color/sign_in_with_apple_button_text_black</item>
-        <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon_black</item>
+        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_white_anim</item>
     </style>
 
     <style name="sign_in_with_apple_button_DialogTheme" parent="android:Theme.DeviceDefault.NoActionBar">

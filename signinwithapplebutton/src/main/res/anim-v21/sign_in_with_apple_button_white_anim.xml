@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="buttonBackgroundColor"
+            android:valueFrom="@color/sign_in_with_apple_button_white"
+            android:valueTo="@color/sign_in_with_apple_button_gray"
+            android:valueType="colorType" />
+    </item>
+    <item>
+        <objectAnimator
+            android:duration="@android:integer/config_shortAnimTime"
+            android:propertyName="buttonBackgroundColor"
+            android:valueFrom="@color/sign_in_with_apple_button_gray"
+            android:valueTo="@color/sign_in_with_apple_button_white"
+            android:valueType="colorType" />
+    </item>
+</selector>
