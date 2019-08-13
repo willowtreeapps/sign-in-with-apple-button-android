@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="SignInWithAppleButton">
+    <style name="SignInWithAppleButtonBase" />
+
+    <style name="SignInWithAppleButton" parent="SignInWithAppleButtonBase">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_black</item>
-        <item name="android:textColor">@color/sign_in_with_apple_button_text_white_selector</item>
+        <item name="android:textColor">@color/sign_in_with_apple_button_text_white</item>
         <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon</item>
-        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_black_anim</item>
     </style>
 
     <style name="SignInWithAppleButton.Black">
         <!-- Inherits default settings. Black is the default if you don't specify a style. -->
     </style>
 
-    <style name="SignInWithAppleButton.White">
+    <style name="SignInWithAppleButtonBase.White"/>
+
+    <style name="SignInWithAppleButton.White" parent="SignInWithAppleButtonBase.White">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_white</item>
         <item name="android:textColor">@color/sign_in_with_apple_button_text_black</item>
-        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_white_anim</item>
     </style>
 
-    <style name="SignInWithAppleButton.WhiteOutline">
+    <style name="SignInWithAppleButton.WhiteOutline" parent="SignInWithAppleButtonBase.White">
         <item name="android:background">@drawable/sign_in_with_apple_button_background_white_outline</item>
         <item name="android:textColor">@color/sign_in_with_apple_button_text_black</item>
-        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_white_anim</item>
     </style>
 
     <style name="sign_in_with_apple_button_DialogTheme" parent="android:Theme.DeviceDefault.NoActionBar">
