@@ -39,7 +39,7 @@ class SignInWithAppleServiceTest {
         )
 
         assertEquals(
-            "https://appleid.apple.com/auth/authorize?response_type=code&v=1.1.6&client_id=com.your.client.id.here&redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback&scope=email&state=state",
+            "https://appleid.apple.com/auth/authorize?response_type=code&v=1.1.6&client_id=com.your.client.id.here&redirect_uri=https%3A%2F%2Fyour-redirect-uri.com%2Fcallback&scope=email&state=state&response_mode=form_post",
             attempt.authenticationUri
         )
         assertEquals("https://your-redirect-uri.com/callback", attempt.redirectUri)
