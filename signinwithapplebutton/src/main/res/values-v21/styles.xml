@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SignInWithAppleButtonBase">
+        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_black_anim</item>
+    </style>
+
+    <style name="SignInWithAppleButtonBase.White">
+        <item name="android:stateListAnimator">@anim/sign_in_with_apple_button_white_anim</item>
+    </style>
+</resources>

@@ -1,69 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFAAAAAA"
-        tools:context=".SampleActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFAAAAAA"
+    tools:context=".SampleActivity">
 
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-            android:id="@+id/sign_in_with_apple_button_black"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            style="@style/SignInWithAppleButton.Black"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white"
-            android:layout_marginStart="20dp" android:layout_marginEnd="20dp"/>
+        android:id="@+id/sign_in_with_apple_button_black"
+        style="@style/SignInWithAppleButton.Black"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-            android:id="@+id/sign_in_with_apple_button_white"
-            android:layout_height="30dp"
-            style="@style/SignInWithAppleButton.White"
-            app:sign_in_with_apple_button_textType="signInWithApple"
-            app:sign_in_with_apple_button_cornerRadius="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_black"
-            app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white_outline"
-            android:layout_width="wrap_content"/>
+        android:id="@+id/sign_in_with_apple_button_white"
+        style="@style/SignInWithAppleButton.White"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_with_apple_button_white_outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_black"
+        app:sign_in_with_apple_button_cornerRadius="0dp"
+        app:sign_in_with_apple_button_textType="signInWithApple" />
 
     <com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton
-            android:id="@+id/sign_in_with_apple_button_white_outline"
-            android:layout_width="0dp"
-            style="@style/SignInWithAppleButton.WhiteOutline"
-            app:sign_in_with_apple_button_textType="continueWithApple"
-            app:sign_in_with_apple_button_cornerRadius="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_white"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_height="48dp"
-            android:layout_marginEnd="30dp" android:layout_marginStart="30dp"/>
+        android:id="@+id/sign_in_with_apple_button_white_outline"
+        style="@style/SignInWithAppleButton.WhiteOutline"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_with_apple_button_white"
+        app:sign_in_with_apple_button_cornerRadius="16dp"
+        app:sign_in_with_apple_button_textType="continueWithApple" />
+
     <TextView
-            android:text="Default size and corner radius"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView2" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_black"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Default size and corner radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_black" />
+
     <TextView
-            android:text="Customized appearance to match app style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView3"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.501"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_white_outline"/>
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Customized appearance to match app style"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_white_outline" />
+
     <TextView
-            android:text="Minimum HIG-permitted size with no corner radius"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView4"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_white"/>
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Minimum HIG-permitted size with no corner radius"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sign_in_with_apple_button_white" />
 </androidx.constraintlayout.widget.ConstraintLayout>
