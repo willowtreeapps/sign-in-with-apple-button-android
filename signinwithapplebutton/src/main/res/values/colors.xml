@@ -2,5 +2,6 @@
 <resources>
     <color name="sign_in_with_apple_button_white">#FFFFFFFF</color>
     <color name="sign_in_with_apple_button_black">#FF000000</color>
-    <color name="sign_in_with_apple_button_gray">#FF999999</color>
+    <color name="sign_in_with_apple_button_white_pressed">#FF999999</color>
+    <color name="sign_in_with_apple_button_black_pressed">#80999999</color>
 </resources>
