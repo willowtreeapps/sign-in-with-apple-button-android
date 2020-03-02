@@ -5,6 +5,12 @@
         <attr name="android:background"/>
         <attr name="android:drawableLeft"/>
         <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textStyle"/>
+        <attr name="android:fontFamily"/>
+
+        <!-- Icon size -->
+        <attr name="sign_in_with_apple_button_iconSize" format="dimension" />
 
         <!-- Text type -->
         <attr name="sign_in_with_apple_button_textType" format="enum">

@@ -1,10 +1,14 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.*
@@ -22,6 +26,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
         LayoutInflater.from(context).inflate(R.layout.sign_in_with_apple_button, this, true)
     }
 
+    private val imageView: ImageView = findViewById(R.id.imageView)
     private val textView: TextView = findViewById(R.id.textView)
 
     init {
@@ -30,8 +35,12 @@ class SignInWithAppleButton @JvmOverloads constructor(
 
         // Style
         val background = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_background)
-        val icon = attributes.getDrawable(R.styleable.SignInWithAppleButton_android_drawableLeft)
+        val icon = attributes.getResourceId(R.styleable.SignInWithAppleButton_android_drawableLeft, -1)
+        val iconSize = attributes.getDimensionPixelSize(R.styleable.SignInWithAppleButton_sign_in_with_apple_button_iconSize, -1)
         val textColor = attributes.getColorStateList(R.styleable.SignInWithAppleButton_android_textColor)
+        val textSize = attributes.getDimensionPixelSize(R.styleable.SignInWithAppleButton_android_textSize, -1)
+        val textStyle = attributes.getInt(R.styleable.SignInWithAppleButton_android_textStyle, 0)
+        val fontFamily = attributes.getString(R.styleable.SignInWithAppleButton_android_fontFamily)
 
         // Text type
         val text = attributes.getInt(
@@ -50,21 +59,31 @@ class SignInWithAppleButton @JvmOverloads constructor(
         this.background = background?.mutate()
         (background as? GradientDrawable)?.cornerRadius = cornerRadius
 
-        if (icon != null) {
-            val iconVerticalOffset =
-                resources.getDimensionPixelOffset(R.dimen.sign_in_with_apple_button_textView_icon_verticalOffset)
+        if (icon != -1) {
+            imageView.setImageResource(icon)
 
-            icon.setBounds(
-                0,
-                iconVerticalOffset,
-                icon.intrinsicWidth,
-                icon.intrinsicHeight + iconVerticalOffset
-            )
-
-            textView.setCompoundDrawablesRelative(icon, null, null, null)
+            if (iconSize != -1) {
+                imageView.layoutParams.width = iconSize
+                imageView.layoutParams.height = iconSize
+            }
+        } else {
+            imageView.visibility = View.GONE
         }
 
         textView.setTextColor(textColor)
+
+        if (textSize != -1) {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
+        }
+
+        val typeface = if (fontFamily == null) {
+            Typeface.create(textView.typeface, textStyle)
+        } else {
+            Typeface.create(fontFamily, textStyle)
+        }
+
+        textView.typeface = typeface
+
         textView.text = resources.getString(SignInTextType.values()[text].text)
     }
 

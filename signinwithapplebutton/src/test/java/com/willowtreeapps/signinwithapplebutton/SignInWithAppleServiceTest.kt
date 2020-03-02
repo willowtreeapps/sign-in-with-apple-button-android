@@ -1,12 +1,15 @@
 package com.willowtreeapps.signinwithapplebutton
 
+import android.os.Build
 import android.os.Parcel
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @RunWith(AndroidJUnit4::class)
+@Config(sdk = [Build.VERSION_CODES.P])
 class SignInWithAppleServiceTest {
 
     @Test
