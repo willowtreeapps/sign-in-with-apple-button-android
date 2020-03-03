@@ -39,17 +39,18 @@ internal class SignInWebViewClient(
                 Log.d(SIGN_IN_WITH_APPLE_LOG_TAG, "Web view was forwarded to redirect URI")
 
                 val codeParameter = url.getQueryParameter("code")
+                val idTokenParameter = url.getQueryParameter("id_token")
                 val stateParameter = url.getQueryParameter("state")
 
                 when {
-                    codeParameter == null -> {
-                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code not returned")))
+                    codeParameter == null || idTokenParameter == null -> {
+                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code or idToken not returned")))
                     }
                     stateParameter != attempt.state -> {
                         callback(SignInWithAppleResult.Failure(IllegalArgumentException("state does not match")))
                     }
                     else -> {
-                        callback(SignInWithAppleResult.Success(codeParameter))
+                        callback(SignInWithAppleResult.Success(codeParameter, idTokenParameter))
                     }
                 }
 
