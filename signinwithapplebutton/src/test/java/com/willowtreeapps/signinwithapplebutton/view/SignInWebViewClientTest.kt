@@ -33,7 +33,7 @@ class SignInWebViewClientTest {
             every { state } returns "state"
         }
         callback = mockkClass(SignInWithAppleCallback::class) {
-            every { onSignInWithAppleSuccess(any()) } just runs
+            every { onSignInWithAppleSuccess(any(), any(), any(), any(), any()) } just runs
             every { onSignInWithAppleFailure(any()) } just runs
         }.toFunction()
         client = SignInWebViewClient(attempt, callback)
