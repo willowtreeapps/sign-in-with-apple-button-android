@@ -62,7 +62,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.4'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.3'
 }
 ```
 
