@@ -74,7 +74,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.3-SNAPSHOT'
+    implementation 'com.willowtreeapps:signinwithapplebutton:0.4-SNAPSHOT'
 }
 ```
 
