@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
+import org.json.JSONObject
 
 internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
@@ -39,17 +40,19 @@ internal class SignInWebViewClient(
                 Log.d(SIGN_IN_WITH_APPLE_LOG_TAG, "Web view was forwarded to redirect URI")
 
                 val codeParameter = url.getQueryParameter("code")
+                val idTokenParameter = url.getQueryParameter("id_token")
                 val stateParameter = url.getQueryParameter("state")
 
                 when {
-                    codeParameter == null -> {
-                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code not returned")))
+                    codeParameter == null || idTokenParameter == null -> {
+                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code or idToken not returned")))
                     }
                     stateParameter != attempt.state -> {
                         callback(SignInWithAppleResult.Failure(IllegalArgumentException("state does not match")))
                     }
                     else -> {
-                        callback(SignInWithAppleResult.Success(codeParameter))
+                        val (email, firstName, lastName) = parseUser(url.getQueryParameter("user"))
+                        callback(SignInWithAppleResult.Success(codeParameter, idTokenParameter, email, firstName, lastName))
                     }
                 }
 
@@ -61,4 +64,39 @@ internal class SignInWebViewClient(
         }
     }
 
+    private fun parseUser(userParameter: String?): Triple<String?, String?, String?> {
+        if (userParameter.isNullOrEmpty()) {
+            return Triple(null, null, null)
+        }
+        val userObject = try {
+            JSONObject(userParameter)
+        } catch (e: Exception) {
+            return Triple(null, null, null)
+        }
+        val email: String? = if (userObject.has("email")) {
+            userObject.getString("email")
+        } else {
+            null
+        }
+        val nameObject = userObject.optJSONObject("name")
+        val firstName: String? = try {
+            if (nameObject?.has("firstName") == true) {
+                nameObject.getString("firstName")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+        val lastName: String? = try {
+            if (nameObject?.has("lastName") == true) {
+                nameObject.getString("lastName")
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+        return Triple(email, firstName, lastName)
+    }
 }

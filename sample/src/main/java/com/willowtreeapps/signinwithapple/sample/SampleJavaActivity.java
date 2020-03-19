@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleConfiguration;
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback;
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService;
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton;
 
 import static android.widget.Toast.LENGTH_SHORT;
@@ -35,8 +34,14 @@ public class SampleJavaActivity extends AppCompatActivity {
 
         SignInWithAppleCallback callback = new SignInWithAppleCallback() {
             @Override
-            public void onSignInWithAppleSuccess(@NonNull String authorizationCode) {
+            public void onSignInWithAppleSuccess(
+                    @NonNull String authorizationCode,
+                    @NonNull String idToken,
+                    @Nullable String email,
+                    @Nullable String firstName,
+                    @Nullable String lastName) {
                 Toast.makeText(SampleJavaActivity.this, authorizationCode, LENGTH_SHORT).show();
+
             }
 
             @Override
