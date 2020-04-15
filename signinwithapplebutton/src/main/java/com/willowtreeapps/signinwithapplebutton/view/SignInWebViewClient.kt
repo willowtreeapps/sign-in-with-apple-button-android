@@ -1,64 +1,33 @@
 package com.willowtreeapps.signinwithapplebutton.view
 
-import android.net.Uri
-import android.os.Build
-import android.util.Log
+import android.os.Handler
 import android.webkit.WebResourceRequest
+import android.webkit.WebResourceResponse
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.annotation.RequiresApi
-import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
-import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Companion.SIGN_IN_WITH_APPLE_LOG_TAG
+import java.lang.Exception
 
 internal class SignInWebViewClient(
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
-    private val callback: (SignInWithAppleResult) -> Unit
+    private val javascriptToInject: String
 ) : WebViewClient() {
+    var mainHandler= Handler()
+    override fun shouldInterceptRequest(
+        view: WebView?,
+        request: WebResourceRequest?
+    ): WebResourceResponse? {
 
-    // for API levels < 24
-    override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-        return isUrlOverridden(view, Uri.parse(url))
-    }
+        if(request?.method == "POST" && request?.url.toString().contains(attempt.redirectUri)){
+            try {
+                Thread.currentThread().interrupt()
+            }catch (ex: Exception){}
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
-        return isUrlOverridden(view, request?.url)
-    }
-
-    private fun isUrlOverridden(view: WebView?, url: Uri?): Boolean {
-        return when {
-            url == null -> {
-                false
-            }
-            url.toString().contains("appleid.apple.com") -> {
-                view?.loadUrl(url.toString())
-                true
-            }
-            url.toString().contains(attempt.redirectUri) -> {
-                Log.d(SIGN_IN_WITH_APPLE_LOG_TAG, "Web view was forwarded to redirect URI")
-
-                val codeParameter = url.getQueryParameter("code")
-                val stateParameter = url.getQueryParameter("state")
-
-                when {
-                    codeParameter == null -> {
-                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("code not returned")))
-                    }
-                    stateParameter != attempt.state -> {
-                        callback(SignInWithAppleResult.Failure(IllegalArgumentException("state does not match")))
-                    }
-                    else -> {
-                        callback(SignInWithAppleResult.Success(codeParameter))
-                    }
-                }
-
-                true
-            }
-            else -> {
-                false
+            mainHandler.post {
+                view?.stopLoading()
+                view?.loadUrl("javascript:$javascriptToInject")
             }
         }
+        return super.shouldInterceptRequest(view, request)
     }
-
 }

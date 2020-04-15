@@ -73,7 +73,6 @@ class SignInWithAppleService(
                     .parse("https://appleid.apple.com/auth/authorize")
                     .buildUpon().apply {
                         appendQueryParameter("response_type", "code")
-                        appendQueryParameter("v", "1.1.6")
                         appendQueryParameter("client_id", configuration.clientId)
                         appendQueryParameter("redirect_uri", configuration.redirectUri)
                         appendQueryParameter("scope", configuration.scope)
