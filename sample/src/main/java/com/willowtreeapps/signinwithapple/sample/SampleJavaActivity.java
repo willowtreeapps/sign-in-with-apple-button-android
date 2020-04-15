@@ -13,6 +13,8 @@ import com.willowtreeapps.signinwithapplebutton.SignInWithAppleCallback;
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService;
 import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton;
 
+import org.jetbrains.annotations.NotNull;
+
 import static android.widget.Toast.LENGTH_SHORT;
 
 public class SampleJavaActivity extends AppCompatActivity {
@@ -30,14 +32,16 @@ public class SampleJavaActivity extends AppCompatActivity {
         SignInWithAppleConfiguration configuration = new SignInWithAppleConfiguration.Builder()
                 .clientId("com.your.client.id.here")
                 .redirectUri("https://your-redirect-uri.com/callback")
-                .scope("email name")
+                .responseType(SignInWithAppleConfiguration.ResponseType.ALL)
+                .scope(SignInWithAppleConfiguration.Scope.ALL)
                 .build();
 
         SignInWithAppleCallback callback = new SignInWithAppleCallback() {
             @Override
-            public void onSignInWithAppleSuccess(@NonNull String authorizationCode) {
-                Toast.makeText(SampleJavaActivity.this, authorizationCode, LENGTH_SHORT).show();
+            public void onSignInWithAppleSuccess(@NotNull String authorizationCode, @NotNull String idToken) {
+                Toast.makeText(SampleJavaActivity.this, "authorizationCode : "+authorizationCode+"   \n   idToken : "+idToken, LENGTH_SHORT).show();
             }
+
 
             @Override
             public void onSignInWithAppleFailure(@NonNull Throwable error) {
