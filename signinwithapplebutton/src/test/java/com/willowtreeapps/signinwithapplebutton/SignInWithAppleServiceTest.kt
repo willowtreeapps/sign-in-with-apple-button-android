@@ -32,12 +32,14 @@ class SignInWithAppleServiceTest {
 
     @Test
     fun creates_authentication_attempt_based_on_service_args() {
+
         val attempt = SignInWithAppleService.AuthenticationAttempt.create(
-            SignInWithAppleConfiguration(
-                clientId = "com.your.client.id.here",
-                redirectUri = "https://your-redirect-uri.com/callback",
-                scope = "email"
-            ),
+            SignInWithAppleConfiguration.Builder()
+                .clientId("com.your.client.id.here")
+                .redirectUri("https://your-redirect-uri.com/callback")
+                .scope(SignInWithAppleConfiguration.Scope.ALL)
+                .responseType(SignInWithAppleConfiguration.ResponseType.ALL)
+                .build(),
             state = "state"
         )
 
