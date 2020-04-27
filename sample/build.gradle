@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    implementation project(":signinwithapplebutton")
+    implementation project(':signIn-with-apple')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
