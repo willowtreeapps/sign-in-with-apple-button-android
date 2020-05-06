@@ -58,23 +58,11 @@ Include as a dependency using Gradle:
 
 ```groovy
 repositories {
-    mavenCentral()
+     jcenter()
 }
 
 dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.3'
-}
-```
-
-Snapshot versions are also available.
-
-```groovy
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-}
-
-dependencies {
-    implementation 'com.willowtreeapps:signinwithapplebutton:0.4-SNAPSHOT'
+    implementation 'com.github.khaledshamieh:signIn-with-apple:0.4'
 }
 ```
 
@@ -94,9 +82,8 @@ At runtime, create an instance of `SignInWithAppleConfiguration`, supplying thes
 
 - `clientId`: Use the client ID value from service setup.
 - `redirectUri`: Use the redirect URI value from service setup.
-- `scope`: Specify a space-delimited string of OpenID scopes, like "name email".
-
-> According to our understanding of OpenID Connect, the "openid" scope should be included. But at this time of writing, that causes the authentication page to fail to initialize. Beta idiosyncrasies like these are documented in [How Sign in with Apple differs from OpenID Connect](https://bitbucket.org/openid/connect/src/default/How-Sign-in-with-Apple-differs-from-OpenID-Connect.md).
+- `scope`: Select a OpenID scopes "NAME ,EMAIL or ALL".
+- `responseType`: Select a type of response "CODE ,ID_TOKEN or ALL".
 
 Configure the button with a `FragmentManager` to present the login interface, the service you created above, and a callback to receive the success/failure/cancel result.
 
@@ -120,26 +107,33 @@ In your Activity, create the `SignInWithAppleService`, then configure the button
 override fun onCreate(savedInstanceState: Bundle?) {
     ...
 
-    val configuration = SignInWithAppleConfiguration(
-        clientId = "com.your.client.id.here",
-        redirectUri = "https://your-redirect-uri.com/callback",
-        scope = "email"
-    )
+    val configuration =  SignInWithAppleConfiguration.Builder()
+               .clientId("com.your.client.id.here")
+               .redirectUri("https://your-redirect-uri.com/callback")
+               .responseType(SignInWithAppleConfiguration.ResponseType.ALL)
+               .scope(SignInWithAppleConfiguration.Scope.ALL)
+               .build()
+
+    val callback: (SignInWithAppleResult) -> Unit = { result ->
+                when (result) {
+                    is SignInWithAppleResult.Success -> {
+                       // Handle success
+                       // result.authorizationCode
+                       // result.idToken
+                    }
+                    is SignInWithAppleResult.Failure -> {
+                      // Handle failure
+                      // result.error
+                    }
+                    is SignInWithAppleResult.Cancel -> {
+                      // Handle user cancel
+                    }
+                }
+            }
 
     val signInWithAppleButton = findViewById(R.id.sign_in_with_apple_button)
-    signInWithAppleButton.setUpSignInWithAppleOnClick(supportFragmentManager, configuration) { result ->
-        when (result) {
-            is SignInWithAppleResult.Success -> {
-                // Handle success
-            }
-            is SignInWithAppleResult.Failure -> {
-                // Handle failure
-            }
-            is SignInWithAppleResult.Cancel -> {
-                // Handle user cancel
-            }
-        }
-    }
+    signInWithAppleButton.setUpSignInWithAppleOnClick(supportFragmentManager, configuration, callback)
+
 }
 ```
 
@@ -149,7 +143,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 When the user taps the button, it will present a web view configured to let the user authorize your service as an OAuth client of their Apple ID. After the user authorizes access, Apple will forward to the redirect URI and include an authorization code. The web view will intercept this request and locate the authorization code.
 
-If the user completes authentication, your callback will receive a `SignInWithAppleResult.Success` with the authorization code. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
+If the user completes authentication, your callback will receive a `SignInWithAppleResult.Success` with the authorization code and idToken. Your backend endpoint can then phone home to Apple to [exchange the authorization code for tokens](https://developer.apple.com/documentation/signinwithapplerestapi/generate_and_validate_tokens), completing login.
 
 If instead there is a failure, your callback will receive a `SignInWithAppleResult.Failure` with the error.
 

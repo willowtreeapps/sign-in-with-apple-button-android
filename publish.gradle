@@ -1,14 +1,15 @@
-apply plugin: 'signing'
-apply plugin: 'digital.wup.android-maven-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven-publish'
 
-group = 'com.willowtreeapps'
+
+group = 'com.github.khaledshamieh'
 version = '0.4'
 
-def siteUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android'
-def gitUrl = 'https://github.com/willowtreeapps/sign-in-with-apple-button-android.git'
+def siteUrl = 'https://github.com/KhaledShamieh/sign-in-with-apple-button-android'
+def gitUrl = 'https://github.com/KhaledShamieh/sign-in-with-apple-button-android.git'
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from(android.sourceSets.main.java.srcDirs)
 }
 
@@ -18,70 +19,61 @@ task androidJavadocs(type: Javadoc) {
 }
 
 task javadocsJar(type: Jar) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from(androidJavadocs)
 }
 
+
 publishing {
     publications {
-        mavenAar(MavenPublication) {
-            from components.android
+        Production(MavenPublication) {
             artifact sourcesJar
             artifact javadocsJar
+            artifact("$buildDir/outputs/aar/signIn-with-apple-release.aar")
+            groupId this.group
+            artifactId 'signIn-with-apple'
+            version this.version
 
-            pom {
-                name = 'Sign In with Apple Button for Android'
-                description = 'Add a Sign In button for Sign In With Apple'
-                url = siteUrl
+            //The publication doesn't know about our dependencies, so we have to manually add them to the pom
+            pom.withXml {
+                def dependenciesNode = asNode().appendNode('dependencies')
 
-                licenses {
-                    license {
-                        name = 'MIT License'
-                        url = 'https://opensource.org/licenses/mit-license.php'
-                    }
+                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
+                configurations.compile.allDependencies.each {
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', it.group)
+                    dependencyNode.appendNode('artifactId', it.name)
+                    dependencyNode.appendNode('version', it.version)
                 }
-
-                developers {
-                    developer {
-                        id = 'MattCorbett488'
-                        name = 'Matt Corbett'
-                    }
-                }
-
-                scm {
-                    url = siteUrl
-                    connection = gitUrl
-                    developerConnection = gitUrl
-                }
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            switch (project.findProperty('releaseMode')) {
-                case "release":
-                    url = 'https://oss.sonatype.org/service/local/staging/deploy/maven2/'
-                    break
-                case "snapshot":
-                    url = 'https://oss.sonatype.org/content/repositories/snapshots'
-                    version = version + "-SNAPSHOT"
-                    break
-                default:
-                    url = 'https://invalid'
-                    break
-            }
-
-            credentials {
-                username project.findProperty('sonatype.username')
-                password project.findProperty('sonatype.password')
             }
         }
     }
 }
+bintray {
+    // Get Bintray credential from environment variable
+    user = System.getenv('BINTRAY_USER') // Get bintray User
+    key = System.getenv('BINTRAY_KEY') // Get bintray Secret Key
+    configurations = ['archives']
+    pkg {
+        repo = 'maven'
+        name = 'signIn-with-apple'
+        desc = 'Add a Sign In button for Sign In With Apple'
 
-if (project.hasProperty("signing.keyId")) {
-    signing {
-        sign publishing.publications.mavenAar
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+
+        labels = ['android', 'signin', 'apple']
+        publicDownloadNumbers = true
+
+        licenses = ['MIT']
+        publish = true
+
+        version {
+            name = this.version //Bintray logical version name
+            desc = 'Enhance configuration & fetch id_token in addition to code'
+            vcsTag = this.version
+        }
     }
+    publications = ['Production']
+
 }
