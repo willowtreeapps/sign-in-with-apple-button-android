@@ -116,7 +116,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
         callback: (SignInWithAppleResult) -> Unit
     ) {
         val fragmentTag = "SignInWithAppleButton-$id-SignInWebViewDialogFragment"
-        val service = SignInWithAppleService(fragmentManager, fragmentTag, configuration, callback)
+        val service = SignInWithAppleService(context, fragmentManager, fragmentTag, configuration, callback)
         setOnClickListener { service.show() }
     }
 
