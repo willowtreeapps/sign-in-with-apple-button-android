@@ -20,6 +20,7 @@ import com.willowtreeapps.signinwithapplebutton.view.SignInWithAppleButton.Compa
  * - Use shouldOverrideUrlLoading for checking redirect URL & current URL by using .startsWith()
  */
 internal class SignInWebViewClient(
+    private val fragment: SignInWebViewDialogFragment,
     private val attempt: SignInWithAppleService.AuthenticationAttempt,
     private val callback: (SignInWithAppleResult) -> Unit
 ) : WebViewClient() {
@@ -43,6 +44,7 @@ internal class SignInWebViewClient(
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onPageStarted(view: WebView?, url: String, favicon: Bitmap?) {
         Log.d(TAG, "STEP 2: onPageStarted : $url")
+        fragment.updateSubtitle(url)
         checkStatusFromURL(view, url)
         // processURL(url)
         super.onPageStarted(view, url, favicon)
@@ -53,10 +55,10 @@ internal class SignInWebViewClient(
     override fun onPageFinished(view: WebView?, url: String) {
         Log.d(TAG, "STEP 3: onPageFinished : $url")
         // Log.d(TAG, "gotError? $gotError")
-        checkStatusFromURL(view, url)
+        // checkStatusFromURL(view, url)
         // processURL(url)
         // finish
-        // hideProgress()
+        hideProgress()
         // Log.d(TAG, "SHOULD GO BACK? : " + shouldAllowBack())
         super.onPageFinished(view, url)
     }
@@ -158,6 +160,7 @@ internal class SignInWebViewClient(
         // val progress: ProgressBar findViewById(R.id.a)
         // progress.setVisibility(View.GONE)
         Log.e(TAG, "NO PROGRESS BAR YET!")
+        fragment.hideProgress()
     }
 
 }

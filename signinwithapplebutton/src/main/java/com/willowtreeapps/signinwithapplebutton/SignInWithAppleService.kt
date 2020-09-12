@@ -1,30 +1,19 @@
 package com.willowtreeapps.signinwithapplebutton
 
-import android.content.Context
 import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import com.willowtreeapps.signinwithapplebutton.constants.Strings
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
 
 class SignInWithAppleService(
-    private val context: Context,
     private val fragmentManager: FragmentManager,
     private val fragmentTag: String,
     private val configuration: SignInWithAppleConfiguration,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
-
-    constructor(
-        context: Context,
-        fragmentManager: FragmentManager,
-        fragmentTag: String,
-        configuration: SignInWithAppleConfiguration,
-        callback: SignInWithAppleCallback
-    ) : this(context, fragmentManager, fragmentTag, configuration, callback.toFunction())
 
     init {
         val fragmentIfShown =
@@ -97,6 +86,5 @@ class SignInWithAppleService(
         val fragment = SignInWebViewDialogFragment.newInstance(AuthenticationAttempt.create(configuration))
         fragment.configure(callback)
         fragment.show(fragmentManager, fragmentTag)
-        // Toast.makeText(context, "TESTED!!!!!!!!!!!!!", Toast.LENGTH_LONG).show()
     }
 }
