@@ -143,11 +143,11 @@ internal class SignInWebViewDialogFragment : DialogFragment() {
     }
 
     fun showProgress() {
-        progress_circular.visibility = VISIBLE
+        progress_circular?.visibility = VISIBLE
     }
 
     fun hideProgress() {
-        progress_circular.visibility = GONE
+        progress_circular?.visibility = GONE
     }
 
     fun updateSubtitle(string: String) {

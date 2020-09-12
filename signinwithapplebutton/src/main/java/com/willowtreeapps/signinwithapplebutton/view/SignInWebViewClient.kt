@@ -9,6 +9,7 @@ import android.webkit.ValueCallback
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleResult
 import com.willowtreeapps.signinwithapplebutton.SignInWithAppleService
@@ -116,6 +117,7 @@ internal class SignInWebViewClient(
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     private fun checkStatusFromURL(view: WebView?, url: String) {
+        Toast.makeText(fragment.context, "checkStatusFromURL: $url", Toast.LENGTH_LONG).show()
         if (!gotError) {
             if (url.contains(attempt.redirectUri)) {
                 // Evaluate Javascript
