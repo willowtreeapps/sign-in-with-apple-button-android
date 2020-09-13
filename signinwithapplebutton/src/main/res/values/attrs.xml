@@ -8,7 +8,7 @@
         <attr name="android:textSize"/>
         <attr name="android:textStyle"/>
         <attr name="android:fontFamily"/>
-        <attr name="android:textAppearance"/>
+        <!-- <attr name="android:textAppearance"/> -->
 
         <!-- Icon size -->
         <attr name="sign_in_with_apple_button_iconSize" format="dimension" />
