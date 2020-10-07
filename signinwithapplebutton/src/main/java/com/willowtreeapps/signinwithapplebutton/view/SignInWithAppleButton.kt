@@ -41,11 +41,18 @@ class SignInWithAppleButton @JvmOverloads constructor(
         val textSize = attributes.getDimensionPixelSize(R.styleable.SignInWithAppleButton_android_textSize, -1)
         val textStyle = attributes.getInt(R.styleable.SignInWithAppleButton_android_textStyle, 0)
         val fontFamily = attributes.getString(R.styleable.SignInWithAppleButton_android_fontFamily)
+        // val textAppearance = attributes.getResourceId(R.styleable.SignInWithAppleButton_android_textAppearance, -1)
 
         // Text type
         val text = attributes.getInt(
             R.styleable.SignInWithAppleButton_sign_in_with_apple_button_textType,
             SignInTextType.SIGN_IN.ordinal
+        )
+
+        // Hide or show icon
+        val enableIcon = attributes.getBoolean(
+            R.styleable.SignInWithAppleButton_sign_in_with_apple_button_enableIcon,
+            true
         )
 
         // Corner radius
@@ -59,7 +66,7 @@ class SignInWithAppleButton @JvmOverloads constructor(
         this.background = background?.mutate()
         (background as? GradientDrawable)?.cornerRadius = cornerRadius
 
-        if (icon != -1) {
+        if (icon != -1 && enableIcon) {
             imageView.setImageResource(icon)
 
             if (iconSize != -1) {
@@ -76,15 +83,19 @@ class SignInWithAppleButton @JvmOverloads constructor(
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
         }
 
+        // set default typeface
         val typeface = if (fontFamily == null) {
             Typeface.create(textView.typeface, textStyle)
         } else {
             Typeface.create(fontFamily, textStyle)
         }
 
-        textView.typeface = typeface
-
+        setTypeFace(typeface)
         textView.text = resources.getString(SignInTextType.values()[text].text)
+    }
+
+    fun setTypeFace(typeface: Typeface) {
+        textView.typeface = typeface
     }
 
     fun setUpSignInWithAppleOnClick(

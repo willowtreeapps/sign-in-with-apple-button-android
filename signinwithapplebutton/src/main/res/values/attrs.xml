@@ -8,6 +8,7 @@
         <attr name="android:textSize"/>
         <attr name="android:textStyle"/>
         <attr name="android:fontFamily"/>
+        <!-- <attr name="android:textAppearance"/> -->
 
         <!-- Icon size -->
         <attr name="sign_in_with_apple_button_iconSize" format="dimension" />
@@ -17,6 +18,9 @@
             <enum name="signInWithApple" value="0" />
             <enum name="continueWithApple" value="1" />
         </attr>
+
+        <!-- Hide or show icon -->
+        <attr name="sign_in_with_apple_button_enableIcon" format="boolean" />
 
         <!-- Corner radius -->
         <attr name="sign_in_with_apple_button_cornerRadius" format="dimension" />

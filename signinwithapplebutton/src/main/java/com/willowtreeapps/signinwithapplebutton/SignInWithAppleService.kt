@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.fragment.app.FragmentManager
+import com.willowtreeapps.signinwithapplebutton.constants.Strings
 import com.willowtreeapps.signinwithapplebutton.view.SignInWebViewDialogFragment
 import java.util.*
 
@@ -13,13 +14,6 @@ class SignInWithAppleService(
     private val configuration: SignInWithAppleConfiguration,
     private val callback: (SignInWithAppleResult) -> Unit
 ) {
-
-    constructor(
-        fragmentManager: FragmentManager,
-        fragmentTag: String,
-        configuration: SignInWithAppleConfiguration,
-        callback: SignInWithAppleCallback
-    ) : this(fragmentManager, fragmentTag, configuration, callback.toFunction())
 
     init {
         val fragmentIfShown =
@@ -70,7 +64,7 @@ class SignInWithAppleService(
                 state: String = UUID.randomUUID().toString()
             ): AuthenticationAttempt {
                 val authenticationUri = Uri
-                    .parse("https://appleid.apple.com/auth/authorize")
+                    .parse("https://${Strings.APPLEID_URL}/auth/authorize")
                     .buildUpon().apply {
                         appendQueryParameter("response_type", "code")
                         appendQueryParameter("v", "1.1.6")

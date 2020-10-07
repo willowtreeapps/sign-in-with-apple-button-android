@@ -6,7 +6,7 @@
         <item name="android:drawableLeft">@drawable/sign_in_with_apple_button_icon_white</item>
     </style>
 
-    <style name="SignInWithAppleButton.Black">
+    <style name="SignInWithAppleButton.Black" parent="SignInWithAppleButton">
         <!-- Inherits default settings. Black is the default if you don't specify a style. -->
     </style>
 
